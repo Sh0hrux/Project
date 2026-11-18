@@ -1,28 +1,28 @@
-# Hafta 1 Hisoboti
+# Hafta 1 hisoboti
 
 ## Qilingan ishlar
-- **2026-11-19**: `flutter create . --project-name startup_app` buyrug'i yordamida loyiha yaratildi, masofaviy Git repozitoriyasi (`https://github.com/Sh0hrux/Project.git`) ulandi va birinchi commit `origin/main` ga push qilindi.
-- **2026-11-19**: Feature-first Clean Architecture papkalar tuzilmasi shakllantirildi: `lib/core/{theme,router,network,error,widgets}` va `lib/features/auth/{data,domain,presentation}` bo'sh papkalari uchun `.gitkeep` yaratildi, `lib/app.dart` minimal dasturiy kodi yozildi, `main.dart` `App` widgetini ishga tushiradigan qilib sozlandi hamda `flutter analyze` va testlar muvaffaqiyatli tekshirildi.
-- **2026-11-19**: Loyihaning holat boshqaruvi, marshrutlash va tarmoq so'rovlari uchun kerakli paketlar (`flutter_bloc`, `equatable`, `go_router`, `dio`) o'rnatildi.
-- **2026-11-19**: Xatoliklarni boshqarish (`core/error`) moduli yaratildi: `Failure` sinflari (`ServerFailure`, `NetworkFailure`, `CacheFailure` va boshqalar) hamda mos `Exception` sinflari ishlab chiqildi.
-- **2026-11-19**: Mavzu tizimi (`core/theme`) ishlab chiqildi: Material 3 ga mos `AppColors` ranglar palitrasi va `AppTheme` (yorug' va qorong'i rejimlar, button va input stillari) yaratilib, `App` ga ulandi.
-- **2026-11-19**: Umumiy UI komponentlari (`core/widgets`) ishlab chiqildi: `AppButton` (yuklanish holatli tugma), `AppTextField` (parol ko'rinuvchanligi va validatsiyali maydon), `LoadingIndicator` hamda xatoliklarni qayta urinish bilan ko'rsatuvchi `ErrorView`.
-- **2026-11-19**: Tarmoq va API mijozi qatlami (`core/network`) ishlab chiqildi: `ApiEndpoints` (manzillar va timeoutlar) hamda Dio asosidagi `DioClient` (so'rovlarni boshqarish, interceptorlar va xatolarni ushlab moslash) tizimi joriy etildi.
-- **2026-11-19**: BLoC holat boshqaruvi (`AuthBloc`), `GoRouter` deklarativ marshrutlash (`AppRouter`, `SplashScreen`, `LoginScreen`, `HomeScreen`) hamda `features/auth` Clean Architecture qatlamlari (Entity, Model, RemoteDataSource, Repository) ishlab chiqilib, `App` ga to'liq ulandi.
+- **18.11** Flutter loyihani `startup_app` nomi bilan yaratdim, GitHub repository'ga ulab, birinchi commitni push qildim.
+- **18.11** Feature-first Clean Architecture bo'yicha papkalarni tayyorladim: `core` ichida theme, router, network, error, widgets, `features/auth` ichida data, domain, presentation.
+- **18.11** Kerakli paketlarni qo'shdim: `flutter_bloc`, `equatable`, `go_router`, `dio`.
+- **18.11** Xatolarni boshqarish qismini yozdim: `Failure` va `Exception` sinflari (server, tarmoq, kesh xatolari).
+- **18.11** Material 3 asosida theme yaratdim: `AppColors`, `AppTheme`, yorug' va qorong'i rejim, tugma va input stillari.
+- **18.11** Umumiy vidjetlar yozdim: `AppButton`, `AppTextField`, `LoadingIndicator`, `ErrorView`.
+- **18.11** Dio asosida API client yaratdim: `ApiEndpoints`, `DioClient`, interceptorlar va xatolarni ushlash.
+- **18.11** Auth feature uchun `AuthBloc`, `AppRouter` (Splash, Login, Home ekranlari) va data/domain qatlamlarini (entity, model, data source, repository) yozib, `App` ga ulab chiqdim.
+- **18.11** README'ga loyiha tuzilmasi va ishga tushirish yo'riqnomasini qo'shdim, `flutter analyze` va `flutter test` ni tekshirdim.
 
 ## Muammolar
-- `flutter create` buyrug'i papka nomisiz kiritilganda yordam (help) matnini chiqarib, loyihani yaratmadi.
-- Loyiha papkasi nomi `projectFT` bo'lgani sababli, katta harflar mavjudligi tufayli Dart paket nomi sifatida qabul qilinmadi.
-- `test/widget_test.dart` da `App` vidjetini sinash paytida `SplashScreen` foni orqali yuborilgan tarmoq so'rovi sababli asinxron Dio taymeri ochiq qolib, `!timersPending` assertion xatoligi yuz berdi.
-- `prefer_initializing_formals` linter qoidasi bo'yicha konstruktor parametrlarida ogohlantirishlar paydo bo'ldi.
+- `flutter create` ni papka nomisiz yozganim uchun u loyiha yaratmadi, faqat yordam matnini chiqardi.
+- Papka nomi `projectFT` edi, katta harflar bo'lgani uchun Dart uni paket nomi sifatida qabul qilmadi.
+- Testda `App` ni sinaganimda `SplashScreen` tarmoqqa so'rov yuborib, Dio taymeri ochiq qolib ketdi va `!timersPending` xatosi chiqdi.
+- Linter `prefer_initializing_formals` bo'yicha konstruktorlarda ogohlantirish berdi.
 
 ## Yechim
-- `flutter create . --project-name startup_app` buyrug'i orqali joriy papkada `startup_app` paket nomi bilan Flutter loyihasi muvaffaqiyatli ishga tushirildi.
-- `App` vidjetiga tashqaridan `authRepository` uzatish imkoniyati qo'shildi (Dependency Injection) va testda `FakeAuthRepository` berilib, `pumpAndSettle()` orqali asinxron jarayonlar xavfsiz yakunlanishi ta'minlandi.
-- Konstruktorlarda parametrlarni to'g'ridan-to'g'ri `this.maydon` shaklida e'lon qilib, linter qoidalariga to'liq moslashtirildi.
+- `flutter create . --project-name startup_app` buyrug'i bilan paket nomini o'zim berdim.
+- `App` ga `authRepository` ni tashqaridan berish imkonini qo'shdim, testda soxta `FakeAuthRepository` ishlatdim va `pumpAndSettle()` bilan kutdim.
+- Konstruktorlarni `this.maydon` shaklida yozib, ogohlantirishlarni tuzatdim.
 
 ## Keyingi hafta rejasi
-- Yangi biznes funksiyalar (features) uchun Clean Architecture modullarini kengaytirish.
-- Mahalliy xotira (local storage / flutter_secure_storage) orqali avtorizatsiya tokenlarini saqlash mexanizmini qo'shish.
-- Foydalanuvchi profili va boshqa asosiy ekranlarni to'liq integratsiya qilish.
-- Unit va integratsion testlar qamrovini oshirish.
+- Yangi funksiyalar (foydalanuvchi profili, sozlamalar va h.k.) uchun yangi modullar ochish.
+- Tokenlarni xavfsiz saqlash (secure storage) tizimini ulash.
+- Qo'shimcha testlar yozib borish.
