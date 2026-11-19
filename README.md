@@ -2,6 +2,10 @@
 
 A new Flutter project.
 
+## Hisobotlar
+
+- [Hafta 1 hisoboti](docs/weekly/hafta-1.md)
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
