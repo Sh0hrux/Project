@@ -1,21 +1,44 @@
 # startup_app
 
-A new Flutter project.
+Startup loyiha uchun Flutter skeleton: Feature-first Clean Architecture, BLoC state management, GoRouter deklarativ marshrutlash, Material 3 mavzusi, Dio asosidagi API mijoz va markazlashtirilgan error handling tizimi.
 
 ## Hisobotlar
 
 - [Hafta 1 hisoboti](docs/weekly/hafta-1.md)
 
+## Loyiha tuzilmasi
+
+```
+lib/
+├── app.dart                   # Bosh ilova vidjeti (Mavzu, Router, Global Providerlar)
+├── main.dart                  # Kirish nuqtasi (main entrypoint)
+├── core/
+│   ├── error/                 # Failure va Exception sinflari
+│   ├── network/               # DioClient va ApiEndpoints
+│   ├── router/                # GoRouter marshrutlash sozlamalari
+│   ├── theme/                 # AppColors va AppTheme (Material 3)
+│   └── widgets/               # Umumiy UI vidjetlar (AppButton, AppTextField, LoadingIndicator, ErrorView)
+└── features/
+    └── auth/                  # Autentifikatsiya moduli (Feature-first)
+        ├── data/              # Modellar, ma'lumot manbalari va repozitoriy realizatsiyasi
+        ├── domain/            # Mohiyatlar (Entities) va repozitoriy shartnomalari
+        └── presentation/      # BLoC, ekranlar (Splash, Login, Home)
+```
+
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+1. Bog'liqliklarni o'rnatish:
+   ```bash
+   flutter pub get
+   ```
 
-A few resources to get you started if this is your first Flutter project:
+2. Tahlil va testlarni yurgizish:
+   ```bash
+   flutter analyze
+   flutter test
+   ```
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+3. Ilovani ishga tushirish:
+   ```bash
+   flutter run
+   ```
