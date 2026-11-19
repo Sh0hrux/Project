@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:startup_app/core/theme/theme_cubit.dart';
 import 'package:startup_app/core/widgets/app_button.dart';
 import 'package:startup_app/features/auth/presentation/bloc/auth_bloc.dart';
 
@@ -9,6 +10,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state.status == AuthStatus.unauthenticated) {
@@ -23,6 +26,14 @@ class HomeScreen extends StatelessWidget {
             title: const Text('Bosh sahifa'),
             actions: [
               IconButton(
+                tooltip: 'Mavzuni almashtirish',
+                icon: const Icon(Icons.brightness_6),
+                onPressed: () {
+                  context.read<ThemeCubit>().toggleTheme();
+                },
+              ),
+              IconButton(
+                tooltip: 'Chiqish',
                 icon: const Icon(Icons.logout),
                 onPressed: () {
                   context.read<AuthBloc>().add(const LogoutRequestedEvent());
@@ -36,16 +47,20 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.check_circle_outline, size: 64, color: Colors.green),
+                  Icon(
+                    Icons.check_circle_outline,
+                    size: 64,
+                    color: theme.colorScheme.primary,
+                  ),
                   const SizedBox(height: 16),
                   Text(
                     'Muvaffaqiyatli kirdingiz!',
-                    style: Theme.of(context).textTheme.headlineSmall,
+                    style: theme.textTheme.headlineSmall,
                   ),
                   const SizedBox(height: 8),
                   Text(
                     user?.email ?? 'Foydalanuvchi',
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: theme.textTheme.bodyLarge,
                   ),
                   const SizedBox(height: 24),
                   AppButton(

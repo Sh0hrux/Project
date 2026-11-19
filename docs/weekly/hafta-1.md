@@ -13,6 +13,7 @@
 - **19.11** BLoC holat o'zgarishlarini kuzatish uchun `AppBlocObserver` yaratdim, `main.dart` da `AuthBloc` ni `BlocProvider` orqali ta'minladim va `AuthBloc` uchun unit testlar yozdim.
 - **19.11** GoRouter uchun `AppRoutes` konstantalarini, autentifikatsiya holatiga asoslangan `redirect` logikasini, `refreshListenable` orqali BLoC oqimini kuzatishni hamda 404 xatosi uchun `NotFoundScreen` ni yaratdim va widget testlar bilan tekshirdim.
 - **19.11** Umumiy UI komponentlarini kengaytirdim: `AppButton` variantlarini (primary, outlined, text), `AppTextField` uchun `errorText` va qo'shimcha ikonkalar, `LoadingOverlay` va `EmptyView` vidjetlarini yaratdim hamda ularga widget testlar yozdim.
+- **19.11** Dizayn tizimi va mavzuni boshqarishni joriy qildim: `AppSpacing`, `AppRadius`, `AppTypography` konstantalarini yaratdim, `ThemeCubit` orqali yorug'/qorong'i mavzuni almashtirishni ulab, Home ekraniga mavzu tugmasini joylashtirdim va `ThemeCubit` uchun testlar yozdim.
 
 ## Muammolar
 - `flutter create` ni papka nomisiz yozganim uchun u loyiha yaratmadi, faqat yordam matnini chiqardi.
