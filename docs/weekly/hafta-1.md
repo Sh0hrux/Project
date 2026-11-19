@@ -12,6 +12,7 @@
 - **18.11** README'ga loyiha tuzilmasi va ishga tushirish yo'riqnomasini qo'shdim, `flutter analyze` va `flutter test` ni tekshirdim.
 - **19.11** BLoC holat o'zgarishlarini kuzatish uchun `AppBlocObserver` yaratdim, `main.dart` da `AuthBloc` ni `BlocProvider` orqali ta'minladim va `AuthBloc` uchun unit testlar yozdim.
 - **19.11** GoRouter uchun `AppRoutes` konstantalarini, autentifikatsiya holatiga asoslangan `redirect` logikasini, `refreshListenable` orqali BLoC oqimini kuzatishni hamda 404 xatosi uchun `NotFoundScreen` ni yaratdim va widget testlar bilan tekshirdim.
+- **19.11** Umumiy UI komponentlarini kengaytirdim: `AppButton` variantlarini (primary, outlined, text), `AppTextField` uchun `errorText` va qo'shimcha ikonkalar, `LoadingOverlay` va `EmptyView` vidjetlarini yaratdim hamda ularga widget testlar yozdim.
 
 ## Muammolar
 - `flutter create` ni papka nomisiz yozganim uchun u loyiha yaratmadi, faqat yordam matnini chiqardi.
@@ -20,6 +21,7 @@
 - Linter `prefer_initializing_formals` bo'yicha konstruktorlarda ogohlantirish berdi.
 - Unit testda `mocktail` import qilinganda linter `depend_on_referenced_packages` xatosini ko'rsatdi.
 - Mavjud bo'lmagan sahifaga kirilganda `redirect` funksiyasi dastlabki holatda har doim `/splash` ga yo'naltirgani sababli 404 ekrani ko'rinmay qoldi.
+- `LoadingOverlay` widget testida Stack ichidagi kichik child sababli `LoadingIndicator` sig'may `RenderFlex overflow` xatosi yuz berdi.
 
 ## Yechim
 - `flutter create . --project-name startup_app` buyrug'i bilan paket nomini o'zim berdim.
@@ -27,3 +29,4 @@
 - Konstruktorlarni `this.maydon` shaklida yozib, ogohlantirishlarni tuzatdim.
 - `mocktail` kutubxonasini `pubspec.yaml` ning `dev_dependencies` bo'limiga qo'shib muammoni hal qildim.
 - `redirect` funksiyasining boshiga `state.error != null` bo'lganda `null` qaytarish shartini qo'shdim, natijada xatolik bo'lganda router to'g'ri `NotFoundScreen` ga yo'naltirildi.
+- `LoadingOverlay` ichidagi indikatorni `SingleChildScrollView` bilan o'radim va testda qat'iy o'lchamli `SizedBox` bilan ta'minladim.

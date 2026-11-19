@@ -3,21 +3,25 @@ import 'package:flutter/material.dart';
 class AppTextField extends StatefulWidget {
   final String label;
   final String? hint;
+  final String? errorText;
   final TextEditingController? controller;
   final bool isPassword;
   final TextInputType keyboardType;
   final String? Function(String?)? validator;
   final Widget? prefixIcon;
+  final Widget? suffixIcon;
 
   const AppTextField({
     super.key,
     required this.label,
     this.hint,
+    this.errorText,
     this.controller,
     this.isPassword = false,
     this.keyboardType = TextInputType.text,
     this.validator,
     this.prefixIcon,
+    this.suffixIcon,
   });
 
   @override
@@ -35,6 +39,21 @@ class _AppTextFieldState extends State<AppTextField> {
 
   @override
   Widget build(BuildContext context) {
+    Widget? effectiveSuffixIcon = widget.suffixIcon;
+
+    if (widget.isPassword) {
+      effectiveSuffixIcon = IconButton(
+        icon: Icon(
+          _obscureText ? Icons.visibility_off : Icons.visibility,
+        ),
+        onPressed: () {
+          setState(() {
+            _obscureText = !_obscureText;
+          });
+        },
+      );
+    }
+
     return TextFormField(
       controller: widget.controller,
       obscureText: widget.isPassword && _obscureText,
@@ -43,19 +62,9 @@ class _AppTextFieldState extends State<AppTextField> {
       decoration: InputDecoration(
         labelText: widget.label,
         hintText: widget.hint,
+        errorText: widget.errorText,
         prefixIcon: widget.prefixIcon,
-        suffixIcon: widget.isPassword
-            ? IconButton(
-                icon: Icon(
-                  _obscureText ? Icons.visibility_off : Icons.visibility,
-                ),
-                onPressed: () {
-                  setState(() {
-                    _obscureText = !_obscureText;
-                  });
-                },
-              )
-            : null,
+        suffixIcon: effectiveSuffixIcon,
       ),
     );
   }
