@@ -5,6 +5,7 @@
 - **2026-11-19**: Feature-first Clean Architecture papkalar tuzilmasi shakllantirildi: `lib/core/{theme,router,network,error,widgets}` va `lib/features/auth/{data,domain,presentation}` bo'sh papkalari uchun `.gitkeep` yaratildi, `lib/app.dart` minimal dasturiy kodi yozildi, `main.dart` `App` widgetini ishga tushiradigan qilib sozlandi hamda `flutter analyze` va testlar muvaffaqiyatli tekshirildi.
 - **2026-11-19**: Loyihaning holat boshqaruvi, marshrutlash va tarmoq so'rovlari uchun kerakli paketlar (`flutter_bloc`, `equatable`, `go_router`, `dio`) o'rnatildi.
 - **2026-11-19**: Xatoliklarni boshqarish (`core/error`) moduli yaratildi: `Failure` sinflari (`ServerFailure`, `NetworkFailure`, `CacheFailure` va boshqalar) hamda mos `Exception` sinflari ishlab chiqildi.
+- **2026-11-19**: Mavzu tizimi (`core/theme`) ishlab chiqildi: Material 3 ga mos `AppColors` ranglar palitrasi va `AppTheme` (yorug' va qorong'i rejimlar, button va input stillari) yaratilib, `App` ga ulandi.
 
 ## Muammolar
 - `flutter create` buyrug'i papka nomisiz kiritilganda yordam (help) matnini chiqarib, loyihani yaratmadi.
