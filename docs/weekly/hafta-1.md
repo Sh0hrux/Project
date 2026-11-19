@@ -10,19 +10,17 @@
 - **18.11** Dio asosida API client yaratdim: `ApiEndpoints`, `DioClient`, interceptorlar va xatolarni ushlash.
 - **18.11** Auth feature uchun `AuthBloc`, `AppRouter` (Splash, Login, Home ekranlari) va data/domain qatlamlarini (entity, model, data source, repository) yozib, `App` ga ulab chiqdim.
 - **18.11** README'ga loyiha tuzilmasi va ishga tushirish yo'riqnomasini qo'shdim, `flutter analyze` va `flutter test` ni tekshirdim.
+- **19.11** BLoC holat o'zgarishlarini kuzatish uchun `AppBlocObserver` yaratdim, `main.dart` da `AuthBloc` ni `BlocProvider` orqali ta'minladim va `AuthBloc` uchun unit testlar yozdim.
 
 ## Muammolar
 - `flutter create` ni papka nomisiz yozganim uchun u loyiha yaratmadi, faqat yordam matnini chiqardi.
 - Papka nomi `projectFT` edi, katta harflar bo'lgani uchun Dart uni paket nomi sifatida qabul qilmadi.
 - Testda `App` ni sinaganimda `SplashScreen` tarmoqqa so'rov yuborib, Dio taymeri ochiq qolib ketdi va `!timersPending` xatosi chiqdi.
 - Linter `prefer_initializing_formals` bo'yicha konstruktorlarda ogohlantirish berdi.
+- Unit testda `mocktail` import qilinganda linter `depend_on_referenced_packages` xatosini ko'rsatdi.
 
 ## Yechim
 - `flutter create . --project-name startup_app` buyrug'i bilan paket nomini o'zim berdim.
 - `App` ga `authRepository` ni tashqaridan berish imkonini qo'shdim, testda soxta `FakeAuthRepository` ishlatdim va `pumpAndSettle()` bilan kutdim.
 - Konstruktorlarni `this.maydon` shaklida yozib, ogohlantirishlarni tuzatdim.
-
-## Keyingi hafta rejasi
-- Yangi funksiyalar (foydalanuvchi profili, sozlamalar va h.k.) uchun yangi modullar ochish.
-- Tokenlarni xavfsiz saqlash (secure storage) tizimini ulash.
-- Qo'shimcha testlar yozib borish.
+- `mocktail` kutubxonasini `pubspec.yaml` ning `dev_dependencies` bo'limiga qo'shib muammoni hal qildim.
