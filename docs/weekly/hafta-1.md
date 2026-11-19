@@ -2,6 +2,7 @@
 
 ## Qilingan ishlar
 - **2026-11-19**: `flutter create . --project-name startup_app` buyrug'i yordamida loyiha yaratildi, masofaviy Git repozitoriyasi (`https://github.com/Sh0hrux/Project.git`) ulandi va birinchi commit `origin/main` ga push qilindi.
+- **2026-11-19**: Feature-first Clean Architecture papkalar tuzilmasi shakllantirildi: `lib/core/{theme,router,network,error,widgets}` va `lib/features/auth/{data,domain,presentation}` bo'sh papkalari uchun `.gitkeep` yaratildi, `lib/app.dart` minimal dasturiy kodi yozildi, `main.dart` `App` widgetini ishga tushiradigan qilib sozlandi hamda `flutter analyze` va testlar muvaffaqiyatli tekshirildi.
 
 ## Muammolar
 - `flutter create` buyrug'i papka nomisiz kiritilganda yordam (help) matnini chiqarib, loyihani yaratmadi.
