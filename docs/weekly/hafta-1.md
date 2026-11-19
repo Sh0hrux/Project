@@ -8,15 +8,21 @@
 - **2026-11-19**: Mavzu tizimi (`core/theme`) ishlab chiqildi: Material 3 ga mos `AppColors` ranglar palitrasi va `AppTheme` (yorug' va qorong'i rejimlar, button va input stillari) yaratilib, `App` ga ulandi.
 - **2026-11-19**: Umumiy UI komponentlari (`core/widgets`) ishlab chiqildi: `AppButton` (yuklanish holatli tugma), `AppTextField` (parol ko'rinuvchanligi va validatsiyali maydon), `LoadingIndicator` hamda xatoliklarni qayta urinish bilan ko'rsatuvchi `ErrorView`.
 - **2026-11-19**: Tarmoq va API mijozi qatlami (`core/network`) ishlab chiqildi: `ApiEndpoints` (manzillar va timeoutlar) hamda Dio asosidagi `DioClient` (so'rovlarni boshqarish, interceptorlar va xatolarni ushlab moslash) tizimi joriy etildi.
+- **2026-11-19**: BLoC holat boshqaruvi (`AuthBloc`), `GoRouter` deklarativ marshrutlash (`AppRouter`, `SplashScreen`, `LoginScreen`, `HomeScreen`) hamda `features/auth` Clean Architecture qatlamlari (Entity, Model, RemoteDataSource, Repository) ishlab chiqilib, `App` ga to'liq ulandi.
 
 ## Muammolar
 - `flutter create` buyrug'i papka nomisiz kiritilganda yordam (help) matnini chiqarib, loyihani yaratmadi.
 - Loyiha papkasi nomi `projectFT` bo'lgani sababli, katta harflar mavjudligi tufayli Dart paket nomi sifatida qabul qilinmadi.
+- `test/widget_test.dart` da `App` vidjetini sinash paytida `SplashScreen` foni orqali yuborilgan tarmoq so'rovi sababli asinxron Dio taymeri ochiq qolib, `!timersPending` assertion xatoligi yuz berdi.
+- `prefer_initializing_formals` linter qoidasi bo'yicha konstruktor parametrlarida ogohlantirishlar paydo bo'ldi.
 
 ## Yechim
 - `flutter create . --project-name startup_app` buyrug'i orqali joriy papkada `startup_app` paket nomi bilan Flutter loyihasi muvaffaqiyatli ishga tushirildi.
+- `App` vidjetiga tashqaridan `authRepository` uzatish imkoniyati qo'shildi (Dependency Injection) va testda `FakeAuthRepository` berilib, `pumpAndSettle()` orqali asinxron jarayonlar xavfsiz yakunlanishi ta'minlandi.
+- Konstruktorlarda parametrlarni to'g'ridan-to'g'ri `this.maydon` shaklida e'lon qilib, linter qoidalariga to'liq moslashtirildi.
 
 ## Keyingi hafta rejasi
-- Feature-first Clean Architecture tuzilmasini shakllantirish (core va features/auth).
-- State management va routing sozlamalarini integratsiya qilish.
-- Umumiy UI komponentlar, mavzu (theme), API client va error handling tizimini o'rnatish.
+- Yangi biznes funksiyalar (features) uchun Clean Architecture modullarini kengaytirish.
+- Mahalliy xotira (local storage / flutter_secure_storage) orqali avtorizatsiya tokenlarini saqlash mexanizmini qo'shish.
+- Foydalanuvchi profili va boshqa asosiy ekranlarni to'liq integratsiya qilish.
+- Unit va integratsion testlar qamrovini oshirish.
