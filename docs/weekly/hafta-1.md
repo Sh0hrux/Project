@@ -7,6 +7,7 @@
 - **2026-11-19**: Xatoliklarni boshqarish (`core/error`) moduli yaratildi: `Failure` sinflari (`ServerFailure`, `NetworkFailure`, `CacheFailure` va boshqalar) hamda mos `Exception` sinflari ishlab chiqildi.
 - **2026-11-19**: Mavzu tizimi (`core/theme`) ishlab chiqildi: Material 3 ga mos `AppColors` ranglar palitrasi va `AppTheme` (yorug' va qorong'i rejimlar, button va input stillari) yaratilib, `App` ga ulandi.
 - **2026-11-19**: Umumiy UI komponentlari (`core/widgets`) ishlab chiqildi: `AppButton` (yuklanish holatli tugma), `AppTextField` (parol ko'rinuvchanligi va validatsiyali maydon), `LoadingIndicator` hamda xatoliklarni qayta urinish bilan ko'rsatuvchi `ErrorView`.
+- **2026-11-19**: Tarmoq va API mijozi qatlami (`core/network`) ishlab chiqildi: `ApiEndpoints` (manzillar va timeoutlar) hamda Dio asosidagi `DioClient` (so'rovlarni boshqarish, interceptorlar va xatolarni ushlab moslash) tizimi joriy etildi.
 
 ## Muammolar
 - `flutter create` buyrug'i papka nomisiz kiritilganda yordam (help) matnini chiqarib, loyihani yaratmadi.
