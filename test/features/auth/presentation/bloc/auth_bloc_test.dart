@@ -2,6 +2,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:startup_app/core/error/failures.dart';
+import 'package:startup_app/features/auth/data/repositories/mock_auth_repository_impl.dart';
 import 'package:startup_app/features/auth/domain/entities/user_entity.dart';
 import 'package:startup_app/features/auth/domain/repositories/auth_repository.dart';
 import 'package:startup_app/features/auth/presentation/bloc/auth_bloc.dart';
@@ -101,6 +102,49 @@ void main() {
           ),
         ).called(1);
       },
+    );
+  });
+
+  group('MockAuthRepositoryImpl bilan AuthBloc testlari', () {
+    blocTest<AuthBloc, AuthState>(
+      '4. Istalgan to\'g\'ri email va parol bilan muvaffaqiyatli kiradi',
+      build: () => AuthBloc(authRepository: MockAuthRepositoryImpl()),
+      act: (bloc) => bloc.add(
+        const LoginRequestedEvent(
+          email: 'user@startup.uz',
+          password: 'secretpassword',
+        ),
+      ),
+      expect: () => [
+        const AuthState(status: AuthStatus.loading, errorMessage: null),
+        const AuthState(
+          status: AuthStatus.authenticated,
+          user: UserEntity(
+            id: 'mock_user_1',
+            email: 'user@startup.uz',
+            name: 'user',
+          ),
+        ),
+      ],
+    );
+
+    blocTest<AuthBloc, AuthState>(
+      '5. "error@test.com" emaili bilan kirilganda ServerFailure yuzaga keladi',
+      build: () => AuthBloc(authRepository: MockAuthRepositoryImpl()),
+      act: (bloc) => bloc.add(
+        const LoginRequestedEvent(
+          email: 'error@test.com',
+          password: 'secretpassword',
+        ),
+      ),
+      expect: () => [
+        const AuthState(status: AuthStatus.loading, errorMessage: null),
+        const AuthState(
+          status: AuthStatus.failure,
+          errorMessage:
+              'Serverda xatolik yuz berdi. Iltimos keyinroq qayta urining.',
+        ),
+      ],
     );
   });
 }

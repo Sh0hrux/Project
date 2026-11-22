@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:startup_app/core/widgets/app_button.dart';
 import 'package:startup_app/core/widgets/app_text_field.dart';
+import 'package:startup_app/core/widgets/error_view.dart';
 import 'package:startup_app/features/auth/presentation/bloc/auth_bloc.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -56,6 +57,8 @@ class _LoginScreenState extends State<LoginScreen> {
         },
         builder: (context, state) {
           final isLoading = state.status == AuthStatus.loading;
+          final hasError =
+              state.status == AuthStatus.failure && state.errorMessage != null;
 
           return SafeArea(
             child: Center(
@@ -80,7 +83,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: theme.textTheme.bodyMedium,
                         textAlign: TextAlign.center,
                       ),
-                      const SizedBox(height: 32),
+                      const SizedBox(height: 24),
+                      if (hasError) ...[
+                        ErrorView(
+                          message: state.errorMessage!,
+                          onRetry: _onLogin,
+                        ),
+                        const SizedBox(height: 16),
+                      ],
                       AppTextField(
                         controller: _emailController,
                         label: 'Email',
