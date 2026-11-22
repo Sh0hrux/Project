@@ -1,12 +1,21 @@
 import 'package:dio/dio.dart';
 import 'package:startup_app/core/error/exceptions.dart';
 import 'package:startup_app/core/network/api_endpoints.dart';
+import 'package:startup_app/core/network/auth_interceptor.dart';
+import 'package:startup_app/core/network/logging_interceptor.dart';
 
 class DioClient {
   final Dio _dio;
+  final AuthInterceptor authInterceptor;
+  final LoggingInterceptor loggingInterceptor;
 
-  DioClient({Dio? dio})
-      : _dio = dio ??
+  DioClient({
+    Dio? dio,
+    AuthInterceptor? authInterceptor,
+    LoggingInterceptor? loggingInterceptor,
+  })  : authInterceptor = authInterceptor ?? AuthInterceptor(),
+        loggingInterceptor = loggingInterceptor ?? LoggingInterceptor(),
+        _dio = dio ??
             Dio(
               BaseOptions(
                 baseUrl: ApiEndpoints.baseUrl,
@@ -18,16 +27,10 @@ class DioClient {
                 },
               ),
             ) {
-    _dio.interceptors.add(
-      InterceptorsWrapper(
-        onRequest: (options, handler) {
-          return handler.next(options);
-        },
-        onError: (DioException error, handler) {
-          return handler.next(error);
-        },
-      ),
-    );
+    _dio.interceptors.addAll([
+      this.authInterceptor,
+      this.loggingInterceptor,
+    ]);
   }
 
   Dio get dio => _dio;
