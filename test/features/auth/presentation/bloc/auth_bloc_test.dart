@@ -146,5 +146,34 @@ void main() {
         ),
       ],
     );
+
+    blocTest<AuthBloc, AuthState>(
+      '6. LogoutRequestedEvent yuborilganda [loading, unauthenticated] chiqaradi va token tozalanadi',
+      build: () {
+        when(() => mockAuthRepository.logout()).thenAnswer((_) async {});
+        return authBloc;
+      },
+      act: (bloc) => bloc.add(const LogoutRequestedEvent()),
+      expect: () => [
+        const AuthState(status: AuthStatus.loading, errorMessage: null),
+        const AuthState(status: AuthStatus.unauthenticated, user: null, errorMessage: null),
+      ],
+      verify: (_) {
+        verify(() => mockAuthRepository.logout()).called(1);
+      },
+    );
+
+    blocTest<AuthBloc, AuthState>(
+      '7. CheckAuthStatusEvent sessiyada foydalanuvchi bo\'lsa [loading, authenticated] chiqaradi',
+      build: () {
+        when(() => mockAuthRepository.getCurrentUser()).thenAnswer((_) async => testUser);
+        return authBloc;
+      },
+      act: (bloc) => bloc.add(const CheckAuthStatusEvent()),
+      expect: () => [
+        const AuthState(status: AuthStatus.loading, errorMessage: null),
+        const AuthState(status: AuthStatus.authenticated, user: testUser),
+      ],
+    );
   });
 }
