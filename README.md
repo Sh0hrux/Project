@@ -5,6 +5,7 @@ Startup loyiha uchun Flutter skeleton: Feature-first Clean Architecture, BLoC st
 ## Hisobotlar
 
 - [Hafta 1 hisoboti](docs/weekly/hafta-1.md)
+- [Hafta 2 hisoboti](docs/weekly/hafta-2.md)
 
 ## Loyiha tuzilmasi
 
