@@ -47,9 +47,10 @@ class LoggingInterceptor extends Interceptor {
     final result = Map<dynamic, dynamic>.from(map);
     for (final key in result.keys) {
       final keyLower = key.toString().toLowerCase();
-      if (keyLower.contains('password') ||
+      if (keyLower.contains('authorization')) {
+        result[key] = 'Bearer ***';
+      } else if (keyLower.contains('password') ||
           keyLower.contains('token') ||
-          keyLower.contains('authorization') ||
           keyLower.contains('secret')) {
         result[key] = '***MASKED***';
       } else if (result[key] is Map) {

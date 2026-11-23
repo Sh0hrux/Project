@@ -32,9 +32,18 @@ migrate_working_dir/
 .pub/
 /build/
 /android/build/
+# Gradle and environments
 .gradle/
 .env*
 /coverage/
+
+# Secret keys & certificates
+*.key
+*.keystore
+*.jks
+*.p12
+*.pfx
+secrets.json
 
 # Symbolication related
 app.*.symbols

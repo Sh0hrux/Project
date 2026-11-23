@@ -3,6 +3,7 @@ import 'package:startup_app/core/error/exceptions.dart';
 import 'package:startup_app/core/network/api_endpoints.dart';
 import 'package:startup_app/core/network/auth_interceptor.dart';
 import 'package:startup_app/core/network/logging_interceptor.dart';
+import 'package:startup_app/core/storage/token_storage.dart';
 
 class DioClient {
   final Dio _dio;
@@ -11,9 +12,13 @@ class DioClient {
 
   DioClient({
     Dio? dio,
+    TokenStorage? tokenStorage,
     AuthInterceptor? authInterceptor,
     LoggingInterceptor? loggingInterceptor,
-  })  : authInterceptor = authInterceptor ?? AuthInterceptor(),
+  })  : authInterceptor = authInterceptor ??
+            AuthInterceptor(
+              tokenStorage: tokenStorage ?? SecureTokenStorage(),
+            ),
         loggingInterceptor = loggingInterceptor ?? LoggingInterceptor(),
         _dio = dio ??
             Dio(
