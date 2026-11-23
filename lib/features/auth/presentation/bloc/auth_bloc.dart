@@ -21,7 +21,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     CheckAuthStatusEvent event,
     Emitter<AuthState> emit,
   ) async {
-    emit(state.copyWith(status: AuthStatus.loading));
+    emit(state.copyWith(status: AuthStatus.loading, clearError: true));
     try {
       final user = await authRepository.getCurrentUser();
       if (user != null) {
@@ -38,7 +38,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     LoginRequestedEvent event,
     Emitter<AuthState> emit,
   ) async {
-    emit(state.copyWith(status: AuthStatus.loading, errorMessage: null));
+    emit(state.copyWith(status: AuthStatus.loading, clearError: true));
     try {
       final user = await authRepository.login(
         email: event.email,
@@ -61,7 +61,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     LogoutRequestedEvent event,
     Emitter<AuthState> emit,
   ) async {
-    emit(state.copyWith(status: AuthStatus.loading));
+    emit(state.copyWith(status: AuthStatus.loading, clearError: true));
     try {
       await authRepository.logout();
     } catch (_) {}
