@@ -15,9 +15,11 @@ class DioClient {
     TokenStorage? tokenStorage,
     AuthInterceptor? authInterceptor,
     LoggingInterceptor? loggingInterceptor,
+    VoidCallback? onUnauthorized,
   })  : authInterceptor = authInterceptor ??
             AuthInterceptor(
               tokenStorage: tokenStorage ?? SecureTokenStorage(),
+              onUnauthorized: onUnauthorized,
             ),
         loggingInterceptor = loggingInterceptor ?? LoggingInterceptor(),
         _dio = dio ??
