@@ -43,6 +43,15 @@ class MockAuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<UserEntity?> getCurrentUser() async {
-    return _currentUser;
+    final token = await tokenStorage?.getAccessToken();
+    if (token != null && token.isNotEmpty) {
+      _currentUser ??= const UserEntity(
+        id: 'mock_user_1',
+        email: 'user@startup.uz',
+        name: 'user',
+      );
+      return _currentUser;
+    }
+    return null;
   }
 }
