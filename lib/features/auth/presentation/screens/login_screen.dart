@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:startup_app/core/utils/validators.dart';
 import 'package:startup_app/core/widgets/app_button.dart';
 import 'package:startup_app/core/widgets/app_text_field.dart';
 import 'package:startup_app/core/widgets/error_view.dart';
@@ -92,42 +93,29 @@ class _LoginScreenState extends State<LoginScreen> {
                         const SizedBox(height: 16),
                       ],
                       AppTextField(
+                        key: const Key('login_email_input'),
                         controller: _emailController,
                         label: 'Email',
                         hint: 'example@domain.com',
                         keyboardType: TextInputType.emailAddress,
                         prefixIcon: const Icon(Icons.email_outlined),
-                        validator: (value) {
-                          if (value == null || value.trim().isEmpty) {
-                            return 'Email kiriting';
-                          }
-                          if (!value.contains('@')) {
-                            return 'Yaroqli email kiriting';
-                          }
-                          return null;
-                        },
+                        validator: Validators.validateEmail,
                       ),
                       const SizedBox(height: 16),
                       AppTextField(
+                        key: const Key('login_password_input'),
                         controller: _passwordController,
                         label: 'Parol',
                         isPassword: true,
                         prefixIcon: const Icon(Icons.lock_outline),
-                        validator: (value) {
-                          if (value == null || value.trim().isEmpty) {
-                            return 'Parol kiriting';
-                          }
-                          if (value.length < 6) {
-                            return 'Parol kamida 6 belgidan iborat bo\'lishi kerak';
-                          }
-                          return null;
-                        },
+                        validator: Validators.validatePassword,
                       ),
                       const SizedBox(height: 24),
                       AppButton(
+                        key: const Key('login_submit_button'),
                         text: 'Kirish',
                         isLoading: isLoading,
-                        onPressed: _onLogin,
+                        onPressed: isLoading ? null : _onLogin,
                       ),
                     ],
                   ),
