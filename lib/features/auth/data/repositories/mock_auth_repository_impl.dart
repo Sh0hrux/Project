@@ -4,11 +4,10 @@ import 'package:startup_app/features/auth/domain/entities/user_entity.dart';
 import 'package:startup_app/features/auth/domain/repositories/auth_repository.dart';
 
 class MockAuthRepositoryImpl implements AuthRepository {
-  final TokenStorage? _tokenStorage;
+  final TokenStorage? tokenStorage;
   UserEntity? _currentUser;
 
-  MockAuthRepositoryImpl({TokenStorage? tokenStorage})
-      : _tokenStorage = tokenStorage;
+  MockAuthRepositoryImpl({this.tokenStorage});
 
   @override
   Future<UserEntity> login({
@@ -28,7 +27,7 @@ class MockAuthRepositoryImpl implements AuthRepository {
       name: email.split('@').first,
     );
 
-    await _tokenStorage?.saveTokens(
+    await tokenStorage?.saveTokens(
       'mock_access_token',
       'mock_refresh_token',
     );
@@ -39,7 +38,7 @@ class MockAuthRepositoryImpl implements AuthRepository {
   @override
   Future<void> logout() async {
     _currentUser = null;
-    await _tokenStorage?.clear();
+    await tokenStorage?.clear();
   }
 
   @override
