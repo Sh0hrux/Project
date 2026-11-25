@@ -9,4 +9,14 @@ abstract class AuthRepository {
   Future<void> logout();
 
   Future<UserEntity?> getCurrentUser();
+
+  Future<void> sendResetCode({required String email});
+
+  Future<void> verifyCode({required String email, required String code});
+
+  Future<void> resetPassword({
+    required String email,
+    required String code,
+    required String newPassword,
+  });
 }

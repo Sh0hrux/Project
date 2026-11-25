@@ -57,4 +57,23 @@ class AuthRepositoryImpl implements AuthRepository {
       return null;
     }
   }
+
+  @override
+  Future<void> sendResetCode({required String email}) async {
+    throw const ServerFailure(message: 'Hali ulanmagan');
+  }
+
+  @override
+  Future<void> verifyCode({required String email, required String code}) async {
+    throw const ServerFailure(message: 'Hali ulanmagan');
+  }
+
+  @override
+  Future<void> resetPassword({
+    required String email,
+    required String code,
+    required String newPassword,
+  }) async {
+    throw const ServerFailure(message: 'Hali ulanmagan');
+  }
 }

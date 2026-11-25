@@ -54,4 +54,38 @@ class MockAuthRepositoryImpl implements AuthRepository {
     }
     return null;
   }
+
+  @override
+  Future<void> sendResetCode({required String email}) async {
+    if (email.trim().toLowerCase() == 'error@test.com') {
+      throw const ServerFailure(
+        message: 'Tarmoq yoki server xatosi. Kod yuborilmadi.',
+        statusCode: 500,
+      );
+    }
+  }
+
+  @override
+  Future<void> verifyCode({required String email, required String code}) async {
+    if (code.trim() != '123456') {
+      throw const ServerFailure(
+        message: 'Tasdiqlash kodi noto\'g\'ri. (Mock: 123456)',
+        statusCode: 400,
+      );
+    }
+  }
+
+  @override
+  Future<void> resetPassword({
+    required String email,
+    required String code,
+    required String newPassword,
+  }) async {
+    if (email.trim().toLowerCase() == 'error@test.com') {
+      throw const ServerFailure(
+        message: 'Parolni yangilashda server xatoligi yuz berdi.',
+        statusCode: 500,
+      );
+    }
+  }
 }

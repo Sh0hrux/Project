@@ -24,4 +24,24 @@ class Validators {
     }
     return null;
   }
+
+  static String? validateResetCode(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Tasdiqlash kodini kiriting';
+    }
+    if (value.trim().length != 6) {
+      return 'Kod 6 ta belgidan iborat bo\'lishi kerak';
+    }
+    return null;
+  }
+
+  static String? validateConfirmPassword(String? value, String password) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Parolni tasdiqlang';
+    }
+    if (value != password) {
+      return 'Parollar mos kelmadi';
+    }
+    return null;
+  }
 }
