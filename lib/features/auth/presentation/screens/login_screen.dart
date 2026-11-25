@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:startup_app/core/router/app_routes.dart';
 import 'package:startup_app/core/utils/validators.dart';
 import 'package:startup_app/core/widgets/app_button.dart';
 import 'package:startup_app/core/widgets/app_text_field.dart';
 import 'package:startup_app/core/widgets/error_view.dart';
 import 'package:startup_app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:startup_app/features/auth/presentation/bloc/forgot_password_bloc.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -110,7 +112,25 @@ class _LoginScreenState extends State<LoginScreen> {
                         prefixIcon: const Icon(Icons.lock_outline),
                         validator: Validators.validatePassword,
                       ),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: 8),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          key: const Key('forgot_password_link'),
+                          onPressed: isLoading
+                              ? null
+                              : () {
+                                  try {
+                                    context.read<ForgotPasswordBloc>().add(
+                                          const ResetForgotPasswordFlowEvent(),
+                                        );
+                                  } catch (_) {}
+                                  context.push(AppRoutes.forgotPassword);
+                                },
+                          child: const Text('Parolni unutdim?'),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
                       AppButton(
                         key: const Key('login_submit_button'),
                         text: 'Kirish',

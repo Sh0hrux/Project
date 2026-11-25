@@ -4,9 +4,12 @@ import 'package:go_router/go_router.dart';
 import 'package:startup_app/core/router/app_routes.dart';
 import 'package:startup_app/core/router/not_found_screen.dart';
 import 'package:startup_app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:startup_app/features/auth/presentation/screens/forgot_password_screen.dart';
 import 'package:startup_app/features/auth/presentation/screens/home_screen.dart';
 import 'package:startup_app/features/auth/presentation/screens/login_screen.dart';
+import 'package:startup_app/features/auth/presentation/screens/reset_password_screen.dart';
 import 'package:startup_app/features/auth/presentation/screens/splash_screen.dart';
+import 'package:startup_app/features/auth/presentation/screens/verify_code_screen.dart';
 
 class GoRouterRefreshStream extends ChangeNotifier {
   late final StreamSubscription<dynamic> _subscription;
@@ -42,6 +45,10 @@ class AppRouter {
 
         final isSplash = state.matchedLocation == AppRoutes.splash;
         final isLogin = state.matchedLocation == AppRoutes.login;
+        final isPublicAuthRoute = isLogin ||
+            state.matchedLocation == AppRoutes.forgotPassword ||
+            state.matchedLocation == AppRoutes.verifyCode ||
+            state.matchedLocation == AppRoutes.resetPassword;
 
         if (status == AuthStatus.initial || status == AuthStatus.loading) {
           return isSplash ? null : AppRoutes.splash;
@@ -50,10 +57,10 @@ class AppRouter {
         final isAuthenticated = status == AuthStatus.authenticated;
 
         if (!isAuthenticated) {
-          return isLogin ? null : AppRoutes.login;
+          return isPublicAuthRoute ? null : AppRoutes.login;
         }
 
-        if (isSplash || isLogin) {
+        if (isSplash || isPublicAuthRoute) {
           return AppRoutes.home;
         }
 
@@ -69,6 +76,21 @@ class AppRouter {
           path: AppRoutes.login,
           name: AppRoutes.loginName,
           builder: (context, state) => const LoginScreen(),
+        ),
+        GoRoute(
+          path: AppRoutes.forgotPassword,
+          name: AppRoutes.forgotPasswordName,
+          builder: (context, state) => const ForgotPasswordScreen(),
+        ),
+        GoRoute(
+          path: AppRoutes.verifyCode,
+          name: AppRoutes.verifyCodeName,
+          builder: (context, state) => const VerifyCodeScreen(),
+        ),
+        GoRoute(
+          path: AppRoutes.resetPassword,
+          name: AppRoutes.resetPasswordName,
+          builder: (context, state) => const ResetPasswordScreen(),
         ),
         GoRoute(
           path: AppRoutes.home,
