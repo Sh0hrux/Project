@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:startup_app/core/router/app_routes.dart';
 import 'package:startup_app/core/theme/theme_cubit.dart';
 import 'package:startup_app/core/widgets/app_button.dart';
 import 'package:startup_app/features/auth/presentation/bloc/auth_bloc.dart';
@@ -25,6 +26,14 @@ class HomeScreen extends StatelessWidget {
           appBar: AppBar(
             title: const Text('Bosh sahifa'),
             actions: [
+              IconButton(
+                key: const Key('home_profile_button'),
+                tooltip: 'Profil',
+                icon: const Icon(Icons.person_outline),
+                onPressed: () {
+                  context.push(AppRoutes.profile);
+                },
+              ),
               IconButton(
                 tooltip: 'Mavzuni almashtirish',
                 icon: const Icon(Icons.brightness_6),

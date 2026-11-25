@@ -7,6 +7,9 @@ import 'package:startup_app/core/theme/theme_cubit.dart';
 import 'package:startup_app/features/auth/data/repositories/mock_auth_repository_impl.dart';
 import 'package:startup_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:startup_app/features/auth/presentation/bloc/forgot_password_bloc.dart';
+import 'package:startup_app/features/profile/data/datasources/profile_remote_data_source.dart';
+import 'package:startup_app/features/profile/data/repositories/profile_repository_impl.dart';
+import 'package:startup_app/features/profile/presentation/bloc/profile_bloc.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,6 +17,9 @@ void main() {
 
   final tokenStorage = SecureTokenStorage();
   final authRepository = MockAuthRepositoryImpl(tokenStorage: tokenStorage);
+  final profileRepository = ProfileRepositoryImpl(
+    remoteDataSource: MockProfileRemoteDataSourceImpl(),
+  );
 
   runApp(
     MultiBlocProvider(
@@ -23,6 +29,9 @@ void main() {
         ),
         BlocProvider<ForgotPasswordBloc>(
           create: (context) => ForgotPasswordBloc(authRepository: authRepository),
+        ),
+        BlocProvider<ProfileBloc>(
+          create: (context) => ProfileBloc(profileRepository: profileRepository),
         ),
         BlocProvider<ThemeCubit>(
           create: (context) => ThemeCubit(),

@@ -10,6 +10,7 @@ import 'package:startup_app/features/auth/presentation/screens/login_screen.dart
 import 'package:startup_app/features/auth/presentation/screens/reset_password_screen.dart';
 import 'package:startup_app/features/auth/presentation/screens/splash_screen.dart';
 import 'package:startup_app/features/auth/presentation/screens/verify_code_screen.dart';
+import 'package:startup_app/features/profile/presentation/screens/profile_screen.dart';
 
 class GoRouterRefreshStream extends ChangeNotifier {
   late final StreamSubscription<dynamic> _subscription;
@@ -96,6 +97,11 @@ class AppRouter {
           path: AppRoutes.home,
           name: AppRoutes.homeName,
           builder: (context, state) => const HomeScreen(),
+        ),
+        GoRoute(
+          path: AppRoutes.profile,
+          name: AppRoutes.profileName,
+          builder: (context, state) => const ProfileScreen(),
         ),
       ],
       errorBuilder: (context, state) => NotFoundScreen(
