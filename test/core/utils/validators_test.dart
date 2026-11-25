@@ -36,5 +36,26 @@ void main() {
       expect(Validators.validatePassword('123456'), isNull);
       expect(Validators.validatePassword('secure_password'), isNull);
     });
+
+    test('validateResetCode 6 ta belgidan boshqasida xato qaytaradi', () {
+      expect(Validators.validateResetCode(''), 'Tasdiqlash kodini kiriting');
+      expect(
+        Validators.validateResetCode('123'),
+        'Kod 6 ta belgidan iborat bo\'lishi kerak',
+      );
+      expect(Validators.validateResetCode('123456'), isNull);
+    });
+
+    test('validateConfirmPassword parollar mosligini tekshiradi', () {
+      expect(
+        Validators.validateConfirmPassword('', '123456'),
+        'Parolni tasdiqlang',
+      );
+      expect(
+        Validators.validateConfirmPassword('654321', '123456'),
+        'Parollar mos kelmadi',
+      );
+      expect(Validators.validateConfirmPassword('123456', '123456'), isNull);
+    });
   });
 }
