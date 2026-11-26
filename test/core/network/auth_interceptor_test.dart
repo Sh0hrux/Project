@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:startup_app/core/network/auth_interceptor.dart';
+import 'package:startup_app/core/storage/organization_storage.dart';
 import 'package:startup_app/core/storage/token_storage.dart';
 
 class FakeTokenStorage implements TokenStorage {
@@ -26,6 +27,28 @@ class FakeTokenStorage implements TokenStorage {
     _refreshToken = null;
     clearCalled = true;
   }
+}
+
+class FakeOrganizationStorage implements OrganizationStorage {
+  String? _orgId;
+
+  @override
+  Future<void> saveOrganizationId(String organizationId) async {
+    _orgId = organizationId;
+  }
+
+  @override
+  Future<String?> getOrganizationId() async => _orgId;
+
+  @override
+  Future<void> clear() async {
+    _orgId = null;
+  }
+}
+
+class _TestRequestInterceptorHandler extends RequestInterceptorHandler {
+  @override
+  void next(RequestOptions requestOptions) {}
 }
 
 class _TestErrorInterceptorHandler extends ErrorInterceptorHandler {
@@ -118,6 +141,25 @@ void main() {
       expect(newAccessToken, isNotNull);
       expect(newAccessToken, startsWith('new_mock_access_token_'));
       expect(unauthorizedTriggered, isFalse);
+    });
+
+    test('4. AuthInterceptor tanlangan tashkilot ID sini X-Organization-Id headeriga qo\'shadi', () async {
+      final fakeOrgStorage = FakeOrganizationStorage();
+      await fakeOrgStorage.saveOrganizationId('org_42');
+      await fakeStorage.saveTokens('token_abc', 'refresh_abc');
+
+      final interceptor = AuthInterceptor(
+        tokenStorage: fakeStorage,
+        organizationStorage: fakeOrgStorage,
+      );
+
+      final options = RequestOptions(path: '/api/v1/tasks');
+      final handler = _TestRequestInterceptorHandler();
+
+      await interceptor.onRequest(options, handler);
+
+      expect(options.headers['Authorization'], 'Bearer token_abc');
+      expect(options.headers['X-Organization-Id'], 'org_42');
     });
   });
 }
