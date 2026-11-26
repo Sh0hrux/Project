@@ -1,5 +1,6 @@
 import 'package:startup_app/core/error/exceptions.dart';
 import 'package:startup_app/core/error/failures.dart';
+import 'package:startup_app/core/storage/organization_storage.dart';
 import 'package:startup_app/core/storage/token_storage.dart';
 import 'package:startup_app/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:startup_app/features/auth/domain/entities/user_entity.dart';
@@ -8,10 +9,12 @@ import 'package:startup_app/features/auth/domain/repositories/auth_repository.da
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource remoteDataSource;
   final TokenStorage? tokenStorage;
+  final OrganizationStorage? organizationStorage;
 
   AuthRepositoryImpl({
     required this.remoteDataSource,
     this.tokenStorage,
+    this.organizationStorage,
   });
 
   @override
@@ -39,13 +42,15 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> logout() async {
     try {
       await remoteDataSource.logout();
-      await tokenStorage?.clear();
     } on ServerException catch (e) {
       throw ServerFailure(message: e.message, statusCode: e.statusCode);
     } on NetworkException catch (e) {
       throw NetworkFailure(message: e.message);
     } catch (e) {
       throw UnknownFailure(message: e.toString());
+    } finally {
+      await tokenStorage?.clear();
+      await organizationStorage?.clear();
     }
   }
 

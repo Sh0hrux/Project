@@ -10,6 +10,9 @@ class ApiEndpoints {
   static const String logout = '/auth/logout';
   static const String profile = '/auth/profile';
 
+  // Organization endpoints
+  static const String organizations = '/organizations';
+
   // Request timeouts
   static const Duration connectTimeout = Duration(seconds: 15);
   static const Duration receiveTimeout = Duration(seconds: 15);

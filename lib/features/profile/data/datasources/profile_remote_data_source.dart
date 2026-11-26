@@ -1,9 +1,42 @@
 import 'package:startup_app/core/error/exceptions.dart';
+import 'package:startup_app/core/network/api_endpoints.dart';
+import 'package:startup_app/core/network/dio_client.dart';
 import 'package:startup_app/features/profile/data/models/user_profile_model.dart';
 
 abstract class ProfileRemoteDataSource {
   Future<UserProfileModel> getProfile();
   Future<UserProfileModel> updateProfile({required String name});
+}
+
+class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
+  final DioClient client;
+
+  ProfileRemoteDataSourceImpl({required this.client});
+
+  @override
+  Future<UserProfileModel> getProfile() async {
+    final response = await client.get(ApiEndpoints.profile);
+    if (response.data is Map<String, dynamic>) {
+      return UserProfileModel.fromJson(response.data as Map<String, dynamic>);
+    }
+    throw const ServerException(
+      message: "Profil ma'lumotlari noto'g'ri formatda",
+    );
+  }
+
+  @override
+  Future<UserProfileModel> updateProfile({required String name}) async {
+    final response = await client.put(
+      ApiEndpoints.profile,
+      data: {'name': name.trim()},
+    );
+    if (response.data is Map<String, dynamic>) {
+      return UserProfileModel.fromJson(response.data as Map<String, dynamic>);
+    }
+    throw const ServerException(
+      message: "Profilni yangilash javobi noto'g'ri formatda",
+    );
+  }
 }
 
 class MockProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
