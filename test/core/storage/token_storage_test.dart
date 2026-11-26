@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:startup_app/core/network/auth_interceptor.dart';
+import 'package:startup_app/core/network/mock_token_refresher.dart';
 import 'package:startup_app/core/storage/token_storage.dart';
 import 'package:startup_app/features/auth/data/repositories/mock_auth_repository_impl.dart';
 
@@ -62,7 +63,10 @@ void main() {
 
     test('3. AuthInterceptor token mavjud bo\'lsa, headerga Bearer token qo\'shadi', () async {
       await fakeStorage.saveTokens('my_jwt_token', 'my_refresh_token');
-      final interceptor = AuthInterceptor(tokenStorage: fakeStorage);
+      final interceptor = AuthInterceptor(
+        tokenStorage: fakeStorage,
+        tokenRefresher: MockTokenRefresher(),
+      );
 
       final options = RequestOptions(path: '/api/v1/profile');
       final handler = _TestRequestInterceptorHandler();
@@ -74,7 +78,10 @@ void main() {
     });
 
     test('4. AuthInterceptor token yo\'q bo\'lsa, Authorization header qo\'shmaydi', () async {
-      final interceptor = AuthInterceptor(tokenStorage: fakeStorage);
+      final interceptor = AuthInterceptor(
+        tokenStorage: fakeStorage,
+        tokenRefresher: MockTokenRefresher(),
+      );
 
       final options = RequestOptions(path: '/api/v1/public');
       final handler = _TestRequestInterceptorHandler();

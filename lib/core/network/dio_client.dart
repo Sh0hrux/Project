@@ -4,29 +4,24 @@ import 'package:startup_app/core/error/exceptions.dart';
 import 'package:startup_app/core/network/api_endpoints.dart';
 import 'package:startup_app/core/network/auth_interceptor.dart';
 import 'package:startup_app/core/network/logging_interceptor.dart';
+import 'package:startup_app/core/network/token_refresher.dart';
 import 'package:startup_app/core/storage/organization_storage.dart';
 import 'package:startup_app/core/storage/token_storage.dart';
 
 class DioClient {
   final Dio _dio;
-  final AuthInterceptor authInterceptor;
+  late final AuthInterceptor authInterceptor;
   final LoggingInterceptor loggingInterceptor;
 
   DioClient({
     Dio? dio,
     TokenStorage? tokenStorage,
     OrganizationStorage? organizationStorage,
+    TokenRefresher? tokenRefresher,
     AuthInterceptor? authInterceptor,
     LoggingInterceptor? loggingInterceptor,
     VoidCallback? onUnauthorized,
-  })  : authInterceptor = authInterceptor ??
-            AuthInterceptor(
-              tokenStorage: tokenStorage ?? SecureTokenStorage(),
-              organizationStorage: organizationStorage,
-              onUnauthorized: onUnauthorized,
-            ),
-        loggingInterceptor = loggingInterceptor ?? LoggingInterceptor(),
-        _dio = dio ??
+  })  : _dio = dio ??
             Dio(
               BaseOptions(
                 baseUrl: ApiEndpoints.baseUrl,
@@ -37,7 +32,17 @@ class DioClient {
                   'Accept': 'application/json',
                 },
               ),
-            ) {
+            ),
+        loggingInterceptor = loggingInterceptor ?? LoggingInterceptor() {
+    this.authInterceptor = authInterceptor ??
+        AuthInterceptor(
+          tokenStorage: tokenStorage ?? SecureTokenStorage(),
+          tokenRefresher: tokenRefresher ?? DioTokenRefresher(),
+          organizationStorage: organizationStorage,
+          onUnauthorized: onUnauthorized,
+          dio: _dio,
+        );
+    this.authInterceptor.dio ??= _dio;
     _dio.interceptors.addAll([
       this.authInterceptor,
       this.loggingInterceptor,
