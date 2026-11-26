@@ -30,6 +30,11 @@
 - **26.11** `AuthInterceptor` dan soxta `mockRefreshAccessToken` metodini olib tashlab, `TokenRefresher` interfeysi va interceptorsiz `Dio` bilan ishlovchi `DioTokenRefresher` (testlar uchun `MockTokenRefresher`) yaratdim.
 - **26.11** `AuthInterceptor` ga parallel 401 so'rovlar uchun `Completer` lock, `extra['retried']` himoyasi, asl `Dio` orqali qayta urinish va muvaffaqiyatsiz refresh'da sessiyani tozalashni qo'shdim hamda 3 ta yangi test yozdim.
 - **26.11** `flutter_secure_storage` (11.2.0) Android `minSdk` talabini tekshirdim (`README.md` da 23, `android/build.gradle` da 24); `flutter.minSdkVersion` allaqachon 24 bo'lgani uchun `build.gradle.kts` ni o'zgartirmadim va `--android-skip-build-dependency-validation` bilan debug APK yig'ib tasdiqladim.
+- **26.11** `android/settings.gradle.kts` da Android Gradle Plugin versiyasini `9.1.0` dan `9.1.1` ga ko'tardim va bayroqsiz `flutter build apk --debug` ni muvaffaqiyatli o'tkazdim.
+- **26.11** `ApiEndpoints.baseUrl` ni `String.fromEnvironment('API_BASE_URL', defaultValue: ...)` orqali olinadigan qildim, `forgotPassword`, `verifyCode`, `resetPassword` endpointlari va `AuthRemoteDataSourceImpl` metodlarini qo'shdim.
+- **26.11** `ErrorHandler.handleException` da `UnauthorizedException`, `NetworkException`, `ServerException` va `CacheException` turlarini mos `Failure` ga aylantirishni qo'shib, `AuthRepositoryImpl`, `ProfileRepositoryImpl` va `OrganizationRepositoryImpl` ga uladim.
+- **26.11** `dio_client_test.dart` da login, profil, tashkilotlar ro'yxati va Dio xatolarining (`timeout`, `401`, `5xx`) `Failure` ga aylanishi uchun 4 ta yangi integratsion test yozdim hamda `README.md` ga haqiqiy API va endpointlar jadvalini qo'shdim.
+- **26.11** `AndroidManifest.xml` ga `android:allowBackup="false"`, `.gitignore` ga `key.properties` va `google-services.json` qoidalarini qo'shdim hamda kod va git tarixida maxfiy ma'lumot yo'qligini tekshirdim.
 
 ## Muammolar
 - `MockAuthRepositoryImpl` konstruktorida `_tokenStorage` xususiy maydoniga parametr biriktirilganda linter `prefer_initializing_formals` ogohlantirishini ko'rsatdi.
@@ -49,4 +54,4 @@
 - Widget testida `tester.runAsync(() => Future<void>.delayed(Duration.zero))` va `await tester.pump()` ishlatib, asinxron event natijasi UI ga yetib kelishini ta'minladim.
 - Testda `const` kalit so'zini olib tashlab, `SelectOrganizationEvent(organization: orgs[0])` shaklida to'g'riladim.
 - Fake sinf maydonlarini `this.accessToken`, `this.refreshToken` va `this.orgId` ko'rinishida to'g'ridan-to'g'ri boshlang'ichladim.
-- `--android-skip-build-dependency-validation` bayrog'i bilan `flutter build apk --debug` ni ishga tushirib `app-debug.apk` muvaffaqiyatli yig'ilishini va `minSdk` mosligini tekshirdim.
+- `--android-skip-build-dependency-validation` bayrog'i bilan `flutter build apk --debug` ni ishga tushirib `app-debug.apk` muvaffaqiyatli yig'ilishini va `minSdk` mosligini tekshirdim; keyingi bosqichda esa `android/settings.gradle.kts` dagi AGP versiyasini `9.1.1` ga yangilab, bayroqsiz `flutter build apk --debug` muammosini ham to'liq hal qildim.
