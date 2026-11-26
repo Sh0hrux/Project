@@ -1,6 +1,16 @@
 # startup_app
 
-Startup loyiha uchun Flutter skeleton: Feature-first Clean Architecture, BLoC state management, GoRouter deklarativ marshrutlash, Material 3 mavzusi, Dio asosidagi API mijoz va markazlashtirilgan error handling tizimi.
+Startup loyiha uchun Flutter ilovasi: Feature-first Clean Architecture, BLoC state management, GoRouter deklarativ marshrutlash, Material 3 dizayn tizimi, Dio asosidagi API mijoz va xavfsiz sessiya boshqaruvi.
+
+## Asosiy funksiyalar
+
+- **Xavfsiz token saqlash:** `flutter_secure_storage` (`TokenStorage`) orqali access va refresh tokenlarni shifrlangan holda saqlash.
+- **Autentifikatsiya (Login & Logout):** Email va parol validatsiyasi, yuklanish holatlari, `Failure` orqali xatolarni ko'rsatish, logout va splash'da sessiyani tiklash.
+- **401 avtomatik boshqaruv:** `AuthInterceptor` orqali 401 xatosida refresh token bilan yangilashga urinish yoki avtomatik logout.
+- **Parolni tiklash:** Uch bosqichli oqim (email kiritish, tasdiqlash kodi, yangi parol o'rnatish).
+- **Foydalanuvchi profili:** Profil ma'lumotlarini ko'rish va tahrirlash (ismni yangilash).
+- **Tashkilot tanlash:** Ko'p tashkilotli muhit uchun tashkilotni tanlash, `SharedPreferences` da saqlash va barcha API so'rovlarga `X-Organization-Id` headerini qo'shish.
+- **Xavfsizlik:** Loglarda token va parollarni maskalash (`LoggingInterceptor` va BLoC event `toString`), barcha parol maydonlarida `obscureText`.
 
 ## Hisobotlar
 
@@ -12,21 +22,32 @@ Startup loyiha uchun Flutter skeleton: Feature-first Clean Architecture, BLoC st
 ```
 lib/
 ├── app.dart                   # Bosh ilova vidjeti (Mavzu, Router, Global Providerlar)
-├── main.dart                  # Kirish nuqtasi (main entrypoint)
+├── main.dart                  # Kirish nuqtasi (DI va BLoC providerlar)
 ├── core/
-│   ├── error/                 # Failure va Exception sinflari
-│   ├── network/               # DioClient va ApiEndpoints
-│   ├── router/                # GoRouter marshrutlash sozlamalari
-│   ├── theme/                 # AppColors va AppTheme (Material 3)
-│   └── widgets/               # Umumiy UI vidjetlar (AppButton, AppTextField, LoadingIndicator, ErrorView)
+│   ├── bloc/                  # AppBlocObserver
+│   ├── error/                 # Failure, Exception, ErrorHandler va Result
+│   ├── network/               # DioClient, ApiEndpoints, AuthInterceptor, LoggingInterceptor
+│   ├── router/                # AppRoutes, AppRouter (redirect & refreshListenable), NotFoundScreen
+│   ├── storage/               # TokenStorage (secure) va OrganizationStorage (prefs)
+│   ├── theme/                 # AppColors, AppTheme, AppSpacing, AppRadius, AppTypography, ThemeCubit
+│   ├── utils/                 # Validators
+│   └── widgets/               # Umumiy UI vidjetlar (AppButton, AppTextField, LoadingOverlay, EmptyView, ErrorView)
 └── features/
-    └── auth/                  # Autentifikatsiya moduli (Feature-first)
-        ├── data/              # Modellar, ma'lumot manbalari va repozitoriy realizatsiyasi
-        ├── domain/            # Mohiyatlar (Entities) va repozitoriy shartnomalari
-        └── presentation/      # BLoC, ekranlar (Splash, Login, Home)
+    ├── auth/                  # Autentifikatsiya va parolni tiklash moduli
+    │   ├── data/              # Modellar, data sourcelar va repozitoriylar (Mock & Impl)
+    │   ├── domain/            # UserEntity va AuthRepository
+    │   └── presentation/      # AuthBloc, ForgotPasswordBloc, Splash/Login/Home/Forgot ekranlar
+    ├── organization/          # Tashkilot tanlash moduli
+    │   ├── data/              # OrganizationModel, MockOrganizationRemoteDataSource, Repo
+    │   ├── domain/            # Organization entity va OrganizationRepository
+    │   └── presentation/      # OrganizationBloc va OrganizationSelectScreen
+    └── profile/               # Foydalanuvchi profili moduli
+        ├── data/              # UserProfileModel, MockProfileRemoteDataSource, Repo
+        ├── domain/            # UserProfile entity va ProfileRepository
+        └── presentation/      # ProfileBloc va ProfileScreen
 ```
 
-## Getting Started
+## Ishga tushirish
 
 1. Bog'liqliklarni o'rnatish:
    ```bash
