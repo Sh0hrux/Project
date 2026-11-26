@@ -21,6 +21,10 @@
 - **26.11** Feature-first Clean Architecture bo'yicha `features/profile` (domain, data, presentation) modulini yaratdim: `UserProfile`, `ProfileRepository`, `MockProfileRemoteDataSourceImpl` va `ProfileBloc`.
 - **26.11** `ProfileScreen` (ism, email, bosh harfli avatar va tahrirlash rejimi) yaratdim, `/profile` marshruti va Home ekranidan profilga o'tish tugmasini qo'shdim.
 - **26.11** `ProfileBloc` uchun 3 ta bloc test va `ProfileScreen` uchun widget test yozdim.
+- **26.11** Feature-first Clean Architecture bo'yicha `features/organization` modulini yaratdim (`Organization`, `OrganizationRepository`, `MockOrganizationRemoteDataSourceImpl`, `OrganizationBloc`, `OrganizationSelectScreen`).
+- **26.11** Tanlangan tashkilot ID sini `SharedPreferencesOrganizationStorage` da saqlashni, `AppRouter` da login'dan keyin tashkilot tanlash sahifasiga yo'naltirishni va `HomeScreen` da tashkilot nomini ko'rsatib almashtirish tugmasini qo'shdim.
+- **26.11** `AuthInterceptor` ga barcha so'rovlarga `X-Organization-Id` headerini qo'shishni hamda logout'da tanlangan tashkilotni tozalashni uladim; `OrganizationBloc` va interceptor uchun testlar yozdim.
+- **26.11** Loyihada xavfsizlik auditini o'tkazdim: `LoginRequestedEvent` va `ResetPasswordSubmittedEvent` eventlarining `toString()` metodida parol maskalanishini qo'shdim, `README.md` ni yangiladim.
 
 ## Muammolar
 - `MockAuthRepositoryImpl` konstruktorida `_tokenStorage` xususiy maydoniga parametr biriktirilganda linter `prefer_initializing_formals` ogohlantirishini ko'rsatdi.
@@ -28,6 +32,7 @@
 - `DioClient` faylida `VoidCallback` ishlatilganda `package:flutter/foundation.dart` import qilinmagani uchun `undefined_class` xatosi chiqdi.
 - Unit testda `ErrorInterceptorHandler` mock qilinganda `super.next(err)` chaqirilishi tufayli uncompleted Completer sababli istisno yuz berdi.
 - `ProfileScreen` widget testida `pumpAndSettle()` va oddiy `pump()` chaqirilganda `ProfileBloc` asinxron yuklanishi tugamay qolib, foydalanuvchi nomi ekranda ko'rinmadi.
+- `OrganizationBloc` testida `const SelectOrganizationEvent(organization: orgs[0])` yozilganda `const_with_non_constant_argument` kompilyatsiya xatosi yuz berdi.
 
 ## Yechim
 - Konstruktorni `this.tokenStorage` shakliga keltirib, maydonni to'g'ridan-to'g'ri boshlang'ichlash orqali ogohlantirishni bartaraf etdim.
@@ -35,3 +40,4 @@
 - `DioClient` fayliga `import 'package:flutter/foundation.dart';` qo'shib xatolikni tuzatdim.
 - Mock handler ichida `super.next(err)` ni olib tashlab, faqat chaqiruv bayrog'ini belgilaydigan qildim.
 - Widget testida `tester.runAsync(() => Future<void>.delayed(Duration.zero))` va `await tester.pump()` ishlatib, asinxron event natijasi UI ga yetib kelishini ta'minladim.
+- Testda `const` kalit so'zini olib tashlab, `SelectOrganizationEvent(organization: orgs[0])` shaklida to'g'riladim.
