@@ -15,15 +15,23 @@
 - **25.11** `SplashScreen` ochilganda `TokenStorage` dagi token asosida sessiyani tiklash va to'g'ridan-to'g'ri Home ekraniga o'tish logikasini yaratdim.
 - **25.11** `AuthInterceptor` ga 401 xatosi kelganda refresh token orqali yangilash yoki avtomatik tizimdan chiqarish (`onUnauthorized`) logikasini qo'shdim.
 - **25.11** Logout, sessiyani tiklash va 401 interceptor holatlari uchun unit va bloc testlar yozdim.
+- **26.11** Parolni tiklash uchun `ForgotPasswordBloc`, `AuthRepository` metodlari (`sendResetCode`, `verifyCode`, `resetPassword`) va mock realizatsiya yaratdim (tasdiqlash kodi: "123456").
+- **26.11** Uch bosqichli parol tiklash ekranlarini (`ForgotPasswordScreen`, `VerifyCodeScreen`, `ResetPasswordScreen`) yaratib, Login ekraniga "Parolni unutdim?" havolasini va login'siz ochiladigan marshrutlarni qo'shdim.
+- **26.11** Parolni tiklash BLoC va yangi validatsiyalar (`validateResetCode`, `validateConfirmPassword`) uchun unit va bloc testlar yozdim.
+- **26.11** Feature-first Clean Architecture bo'yicha `features/profile` (domain, data, presentation) modulini yaratdim: `UserProfile`, `ProfileRepository`, `MockProfileRemoteDataSourceImpl` va `ProfileBloc`.
+- **26.11** `ProfileScreen` (ism, email, bosh harfli avatar va tahrirlash rejimi) yaratdim, `/profile` marshruti va Home ekranidan profilga o'tish tugmasini qo'shdim.
+- **26.11** `ProfileBloc` uchun 3 ta bloc test va `ProfileScreen` uchun widget test yozdim.
 
 ## Muammolar
 - `MockAuthRepositoryImpl` konstruktorida `_tokenStorage` xususiy maydoniga parametr biriktirilganda linter `prefer_initializing_formals` ogohlantirishini ko'rsatdi.
 - `LoginScreen` widget testida `mockAuthRepository.login(...)` chaqiruviga javob mock qilinmagani sababli test `AuthStatus.failure` holatiga tushib qoldi.
 - `DioClient` faylida `VoidCallback` ishlatilganda `package:flutter/foundation.dart` import qilinmagani uchun `undefined_class` xatosi chiqdi.
 - Unit testda `ErrorInterceptorHandler` mock qilinganda `super.next(err)` chaqirilishi tufayli uncompleted Completer sababli istisno yuz berdi.
+- `ProfileScreen` widget testida `pumpAndSettle()` va oddiy `pump()` chaqirilganda `ProfileBloc` asinxron yuklanishi tugamay qolib, foydalanuvchi nomi ekranda ko'rinmadi.
 
 ## Yechim
 - Konstruktorni `this.tokenStorage` shakliga keltirib, maydonni to'g'ridan-to'g'ri boshlang'ichlash orqali ogohlantirishni bartaraf etdim.
 - Widget testida `when(() => mockAuthRepository.login(...)).thenAnswer(...)` bilan kutilgan foydalanuvchi ma'lumotlarini qaytardim.
 - `DioClient` fayliga `import 'package:flutter/foundation.dart';` qo'shib xatolikni tuzatdim.
 - Mock handler ichida `super.next(err)` ni olib tashlab, faqat chaqiruv bayrog'ini belgilaydigan qildim.
+- Widget testida `tester.runAsync(() => Future<void>.delayed(Duration.zero))` va `await tester.pump()` ishlatib, asinxron event natijasi UI ga yetib kelishini ta'minladim.
