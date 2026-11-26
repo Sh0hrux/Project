@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:startup_app/core/error/exceptions.dart';
 import 'package:startup_app/core/error/failures.dart';
 
 class ErrorHandler {
@@ -52,6 +53,21 @@ class ErrorHandler {
   static Failure handleException(Object exception) {
     if (exception is DioException) {
       return handleDioError(exception);
+    }
+    if (exception is UnauthorizedException) {
+      return UnauthorizedFailure(message: exception.message);
+    }
+    if (exception is NetworkException) {
+      return NetworkFailure(message: exception.message);
+    }
+    if (exception is ServerException) {
+      return ServerFailure(
+        message: exception.message,
+        statusCode: exception.statusCode,
+      );
+    }
+    if (exception is CacheException) {
+      return CacheFailure(message: exception.message);
     }
     if (exception is Failure) {
       return exception;

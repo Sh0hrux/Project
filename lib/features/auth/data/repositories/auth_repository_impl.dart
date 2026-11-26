@@ -1,5 +1,4 @@
-import 'package:startup_app/core/error/exceptions.dart';
-import 'package:startup_app/core/error/failures.dart';
+import 'package:startup_app/core/error/error_handler.dart';
 import 'package:startup_app/core/storage/organization_storage.dart';
 import 'package:startup_app/core/storage/token_storage.dart';
 import 'package:startup_app/features/auth/data/datasources/auth_remote_data_source.dart';
@@ -29,12 +28,8 @@ class AuthRepositoryImpl implements AuthRepository {
         'refresh_token_placeholder',
       );
       return user;
-    } on ServerException catch (e) {
-      throw ServerFailure(message: e.message, statusCode: e.statusCode);
-    } on NetworkException catch (e) {
-      throw NetworkFailure(message: e.message);
     } catch (e) {
-      throw UnknownFailure(message: e.toString());
+      throw ErrorHandler.handleException(e);
     }
   }
 
@@ -42,12 +37,8 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> logout() async {
     try {
       await remoteDataSource.logout();
-    } on ServerException catch (e) {
-      throw ServerFailure(message: e.message, statusCode: e.statusCode);
-    } on NetworkException catch (e) {
-      throw NetworkFailure(message: e.message);
     } catch (e) {
-      throw UnknownFailure(message: e.toString());
+      throw ErrorHandler.handleException(e);
     } finally {
       await tokenStorage?.clear();
       await organizationStorage?.clear();
@@ -65,12 +56,20 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<void> sendResetCode({required String email}) async {
-    throw const ServerFailure(message: 'Hali ulanmagan');
+    try {
+      await remoteDataSource.sendResetCode(email: email);
+    } catch (e) {
+      throw ErrorHandler.handleException(e);
+    }
   }
 
   @override
   Future<void> verifyCode({required String email, required String code}) async {
-    throw const ServerFailure(message: 'Hali ulanmagan');
+    try {
+      await remoteDataSource.verifyCode(email: email, code: code);
+    } catch (e) {
+      throw ErrorHandler.handleException(e);
+    }
   }
 
   @override
@@ -79,6 +78,14 @@ class AuthRepositoryImpl implements AuthRepository {
     required String code,
     required String newPassword,
   }) async {
-    throw const ServerFailure(message: 'Hali ulanmagan');
+    try {
+      await remoteDataSource.resetPassword(
+        email: email,
+        code: code,
+        newPassword: newPassword,
+      );
+    } catch (e) {
+      throw ErrorHandler.handleException(e);
+    }
   }
 }

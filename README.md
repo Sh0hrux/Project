@@ -77,3 +77,25 @@ Ilova `main.dart` ichidagi `const bool useMock = bool.fromEnvironment('USE_MOCK'
   ```bash
   flutter run --dart-define=USE_MOCK=false
   ```
+
+## Haqiqiy API bilan ishlatish
+
+Backend serverga ulanish uchun `USE_MOCK=false` va `API_BASE_URL` bayroqlarini bering:
+
+```bash
+flutter run --dart-define=USE_MOCK=false --dart-define=API_BASE_URL=https://api.example.com/v1
+```
+
+Kutiladigan API endpointlar (`ApiEndpoints`):
+
+| Funksiya | Metod | Endpoint yo'li | Izoh |
+| --- | --- | --- | --- |
+| Tizimga kirish | `POST` | `/auth/login` | `email`, `password` |
+| Ro'yxatdan o'tish | `POST` | `/auth/register` | Ro'yxatdan o'tish |
+| Token yangilash | `POST` | `/auth/refresh` | `refresh_token` |
+| Tizimdan chiqish | `POST` | `/auth/logout` | Sessiyani yopish |
+| Parol tiklash kodi | `POST` | `/auth/forgot-password` | `email` |
+| Kodni tasdiqlash | `POST` | `/auth/verify-code` | `email`, `code` |
+| Yangi parol o'rnatish | `POST` | `/auth/reset-password` | `email`, `code`, `new_password` |
+| Profilni olish / yangilash | `GET` / `PUT` | `/auth/profile` | `Authorization`, `X-Organization-Id` |
+| Tashkilotlar ro'yxati | `GET` | `/organizations` | `Authorization`, `X-Organization-Id` |
