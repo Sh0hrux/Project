@@ -8,19 +8,19 @@
 - **23.11** `main.dart` da `SecureTokenStorage` instansiyasini yaratib, repozitoriy va interceptorga bog'ladim.
 - **23.11** `FakeTokenStorage` yaratib, tokenlarni saqlash, o'qish, tozalash, interceptor orqali headerga biriktirish va repozitoriy integratsiyasi bo'yicha 5 ta unit test yozdim.
 - **23.11** `.gitignore` fayliga maxfiy kalitlar va sertifikatlar (`*.key`, `*.keystore`, `*.jks`, `*.p12`, `*.pfx`, `secrets.json`) kengaytmalarini qo'shdim.
-- **25.11** Email va parol uchun regex asosidagi `Validators` yordamchi sinfini yaratdim, `LoginScreen` ga bog'lab, yuklanish holatida tugmani bloklashni joriy qildim.
-- **25.11** `AuthBloc` dagi holat o'tishlarini (`initial`, `loading`, `authenticated`, `failure`) yaxshiladim, `clearError` parametri orqali xatoliklarni tozalash imkoniyatini qo'shdim.
-- **25.11** Validatsiya uchun 6 ta unit test, `AuthBloc` login holatlari va `LoginScreen` vidjeti uchun testlar yozdim.
-- **25.11** `LogoutRequestedEvent` orqali tizimdan chiqish, `TokenStorage.clear()` bilan tokenlarni to'liq tozalash va login ekraniga qaytishni ta'minladim.
-- **25.11** `SplashScreen` ochilganda `TokenStorage` dagi token asosida sessiyani tiklash va to'g'ridan-to'g'ri Home ekraniga o'tish logikasini yaratdim.
-- **25.11** `AuthInterceptor` ga 401 xatosi kelganda refresh token orqali yangilash yoki avtomatik tizimdan chiqarish (`onUnauthorized`) logikasini qo'shdim.
-- **25.11** Logout, sessiyani tiklash va 401 interceptor holatlari uchun unit va bloc testlar yozdim.
-- **26.11** Parolni tiklash uchun `ForgotPasswordBloc`, `AuthRepository` metodlari (`sendResetCode`, `verifyCode`, `resetPassword`) va mock realizatsiya yaratdim (tasdiqlash kodi: "123456").
-- **26.11** Uch bosqichli parol tiklash ekranlarini (`ForgotPasswordScreen`, `VerifyCodeScreen`, `ResetPasswordScreen`) yaratib, Login ekraniga "Parolni unutdim?" havolasini va login'siz ochiladigan marshrutlarni qo'shdim.
-- **26.11** Parolni tiklash BLoC va yangi validatsiyalar (`validateResetCode`, `validateConfirmPassword`) uchun unit va bloc testlar yozdim.
-- **26.11** Feature-first Clean Architecture bo'yicha `features/profile` (domain, data, presentation) modulini yaratdim: `UserProfile`, `ProfileRepository`, `MockProfileRemoteDataSourceImpl` va `ProfileBloc`.
-- **26.11** `ProfileScreen` (ism, email, bosh harfli avatar va tahrirlash rejimi) yaratdim, `/profile` marshruti va Home ekranidan profilga o'tish tugmasini qo'shdim.
-- **26.11** `ProfileBloc` uchun 3 ta bloc test va `ProfileScreen` uchun widget test yozdim.
+- **23.11** Email va parol uchun regex asosidagi `Validators` yordamchi sinfini yaratdim, `LoginScreen` ga bog'lab, yuklanish holatida tugmani bloklashni joriy qildim.
+- **23.11** `AuthBloc` dagi holat o'tishlarini (`initial`, `loading`, `authenticated`, `failure`) yaxshiladim, `clearError` parametri orqali xatoliklarni tozalash imkoniyatini qo'shdim.
+- **23.11** Validatsiya uchun 6 ta unit test, `AuthBloc` login holatlari va `LoginScreen` vidjeti uchun testlar yozdim.
+- **23.11** `LogoutRequestedEvent` orqali tizimdan chiqish, `TokenStorage.clear()` bilan tokenlarni to'liq tozalash va login ekraniga qaytishni ta'minladim.
+- **23.11** `SplashScreen` ochilganda `TokenStorage` dagi token asosida sessiyani tiklash va to'g'ridan-to'g'ri Home ekraniga o'tish logikasini yaratdim.
+- **23.11** `AuthInterceptor` ga 401 xatosi kelganda refresh token orqali yangilash yoki avtomatik tizimdan chiqarish (`onUnauthorized`) logikasini qo'shdim.
+- **23.11** Logout, sessiyani tiklash va 401 interceptor holatlari uchun unit va bloc testlar yozdim.
+- **25.11** Parolni tiklash uchun `ForgotPasswordBloc`, `AuthRepository` metodlari (`sendResetCode`, `verifyCode`, `resetPassword`) va mock realizatsiya yaratdim (tasdiqlash kodi: "123456").
+- **25.11** Uch bosqichli parol tiklash ekranlarini (`ForgotPasswordScreen`, `VerifyCodeScreen`, `ResetPasswordScreen`) yaratib, Login ekraniga "Parolni unutdim?" havolasini va login'siz ochiladigan marshrutlarni qo'shdim.
+- **25.11** Parolni tiklash BLoC va yangi validatsiyalar (`validateResetCode`, `validateConfirmPassword`) uchun unit va bloc testlar yozdim.
+- **25.11** Feature-first Clean Architecture bo'yicha `features/profile` (domain, data, presentation) modulini yaratdim: `UserProfile`, `ProfileRepository`, `MockProfileRemoteDataSourceImpl` va `ProfileBloc`.
+- **25.11** `ProfileScreen` (ism, email, bosh harfli avatar va tahrirlash rejimi) yaratdim, `/profile` marshruti va Home ekranidan profilga o'tish tugmasini qo'shdim.
+- **25.11** `ProfileBloc` uchun 3 ta bloc test va `ProfileScreen` uchun widget test yozdim.
 - **26.11** Feature-first Clean Architecture bo'yicha `features/organization` modulini yaratdim (`Organization`, `OrganizationRepository`, `MockOrganizationRemoteDataSourceImpl`, `OrganizationBloc`, `OrganizationSelectScreen`).
 - **26.11** Tanlangan tashkilot ID sini `SharedPreferencesOrganizationStorage` da saqlashni, `AppRouter` da login'dan keyin tashkilot tanlash sahifasiga yo'naltirishni va `HomeScreen` da tashkilot nomini ko'rsatib almashtirish tugmasini qo'shdim.
 - **26.11** `AuthInterceptor` ga barcha so'rovlarga `X-Organization-Id` headerini qo'shishni hamda logout'da tanlangan tashkilotni tozalashni uladim; `OrganizationBloc` va interceptor uchun testlar yozdim.
