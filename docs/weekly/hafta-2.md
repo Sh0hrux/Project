@@ -25,6 +25,11 @@
 - **26.11** Tanlangan tashkilot ID sini `SharedPreferencesOrganizationStorage` da saqlashni, `AppRouter` da login'dan keyin tashkilot tanlash sahifasiga yo'naltirishni va `HomeScreen` da tashkilot nomini ko'rsatib almashtirish tugmasini qo'shdim.
 - **26.11** `AuthInterceptor` ga barcha so'rovlarga `X-Organization-Id` headerini qo'shishni hamda logout'da tanlangan tashkilotni tozalashni uladim; `OrganizationBloc` va interceptor uchun testlar yozdim.
 - **26.11** Loyihada xavfsizlik auditini o'tkazdim: `LoginRequestedEvent` va `ResetPasswordSubmittedEvent` eventlarining `toString()` metodida parol maskalanishini qo'shdim, `README.md` ni yangiladim.
+- **26.11** `main.dart` ga `USE_MOCK` bayrog'ini qo'shdim (`useMock == false` holatda `DioClient`, `AuthRepositoryImpl`, haqiqiy `ProfileRemoteDataSourceImpl` va `OrganizationRemoteDataSourceImpl` ulanadi, `onUnauthorized` esa `LogoutRequestedEvent` yuboradi).
+- **26.11** `ApiEndpoints` ga `/organizations` endpointini, `DioClient` ga `put` metodini qo'shdim hamda `DioClient` so'rovlarida `Authorization` va `X-Organization-Id` headerlari yuborilishini tekshiruvchi test yozdim.
+- **26.11** `AuthInterceptor` dan soxta `mockRefreshAccessToken` metodini olib tashlab, `TokenRefresher` interfeysi va interceptorsiz `Dio` bilan ishlovchi `DioTokenRefresher` (testlar uchun `MockTokenRefresher`) yaratdim.
+- **26.11** `AuthInterceptor` ga parallel 401 so'rovlar uchun `Completer` lock, `extra['retried']` himoyasi, asl `Dio` orqali qayta urinish va muvaffaqiyatsiz refresh'da sessiyani tozalashni qo'shdim hamda 3 ta yangi test yozdim.
+- **26.11** `flutter_secure_storage` (11.2.0) Android `minSdk` talabini tekshirdim (`README.md` da 23, `android/build.gradle` da 24); `flutter.minSdkVersion` allaqachon 24 bo'lgani uchun `build.gradle.kts` ni o'zgartirmadim va `--android-skip-build-dependency-validation` bilan debug APK yig'ib tasdiqladim.
 
 ## Muammolar
 - `MockAuthRepositoryImpl` konstruktorida `_tokenStorage` xususiy maydoniga parametr biriktirilganda linter `prefer_initializing_formals` ogohlantirishini ko'rsatdi.
@@ -33,6 +38,8 @@
 - Unit testda `ErrorInterceptorHandler` mock qilinganda `super.next(err)` chaqirilishi tufayli uncompleted Completer sababli istisno yuz berdi.
 - `ProfileScreen` widget testida `pumpAndSettle()` va oddiy `pump()` chaqirilganda `ProfileBloc` asinxron yuklanishi tugamay qolib, foydalanuvchi nomi ekranda ko'rinmadi.
 - `OrganizationBloc` testida `const SelectOrganizationEvent(organization: orgs[0])` yozilganda `const_with_non_constant_argument` kompilyatsiya xatosi yuz berdi.
+- `dio_client_test.dart` dagi fake storage sinflarida linter `prefer_initializing_formals` ogohlantirishini berdi.
+- `flutter build apk --debug` ishga tushirilganda loyihadagi Android Gradle Plugin (9.1.0) Flutter talab qilgan minimal versiyadan (9.1.1) past ekanligi sababli build to'xtadi.
 
 ## Yechim
 - Konstruktorni `this.tokenStorage` shakliga keltirib, maydonni to'g'ridan-to'g'ri boshlang'ichlash orqali ogohlantirishni bartaraf etdim.
@@ -41,3 +48,5 @@
 - Mock handler ichida `super.next(err)` ni olib tashlab, faqat chaqiruv bayrog'ini belgilaydigan qildim.
 - Widget testida `tester.runAsync(() => Future<void>.delayed(Duration.zero))` va `await tester.pump()` ishlatib, asinxron event natijasi UI ga yetib kelishini ta'minladim.
 - Testda `const` kalit so'zini olib tashlab, `SelectOrganizationEvent(organization: orgs[0])` shaklida to'g'riladim.
+- Fake sinf maydonlarini `this.accessToken`, `this.refreshToken` va `this.orgId` ko'rinishida to'g'ridan-to'g'ri boshlang'ichladim.
+- `--android-skip-build-dependency-validation` bayrog'i bilan `flutter build apk --debug` ni ishga tushirib `app-debug.apk` muvaffaqiyatli yig'ilishini va `minSdk` mosligini tekshirdim.
