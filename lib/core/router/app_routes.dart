@@ -19,6 +19,9 @@ class AppRoutes {
   static const String home = '/home';
   static const String homeName = 'home';
 
+  static const String organization = '/select-organization';
+  static const String organizationName = 'select-organization';
+
   static const String profile = '/profile';
   static const String profileName = 'profile';
 }

@@ -10,6 +10,8 @@ import 'package:startup_app/features/auth/presentation/screens/login_screen.dart
 import 'package:startup_app/features/auth/presentation/screens/reset_password_screen.dart';
 import 'package:startup_app/features/auth/presentation/screens/splash_screen.dart';
 import 'package:startup_app/features/auth/presentation/screens/verify_code_screen.dart';
+import 'package:startup_app/features/organization/presentation/bloc/organization_bloc.dart';
+import 'package:startup_app/features/organization/presentation/screens/organization_select_screen.dart';
 import 'package:startup_app/features/profile/presentation/screens/profile_screen.dart';
 
 class GoRouterRefreshStream extends ChangeNotifier {
@@ -32,10 +34,20 @@ class GoRouterRefreshStream extends ChangeNotifier {
 class AppRouter {
   AppRouter._();
 
-  static GoRouter createRouter(AuthBloc authBloc) {
+  static GoRouter createRouter(
+    AuthBloc authBloc, {
+    OrganizationBloc? organizationBloc,
+  }) {
+    final Listenable refreshListenable = organizationBloc != null
+        ? Listenable.merge([
+            GoRouterRefreshStream(authBloc.stream),
+            GoRouterRefreshStream(organizationBloc.stream),
+          ])
+        : GoRouterRefreshStream(authBloc.stream);
+
     return GoRouter(
       initialLocation: AppRoutes.splash,
-      refreshListenable: GoRouterRefreshStream(authBloc.stream),
+      refreshListenable: refreshListenable,
       redirect: (context, state) {
         if (state.error != null) {
           return null;
@@ -59,6 +71,16 @@ class AppRouter {
 
         if (!isAuthenticated) {
           return isPublicAuthRoute ? null : AppRoutes.login;
+        }
+
+        if (organizationBloc != null &&
+            organizationBloc.state.selectedOrganization == null) {
+          if (state.matchedLocation == AppRoutes.organization) {
+            return null;
+          }
+          if (isSplash || isPublicAuthRoute) {
+            return AppRoutes.organization;
+          }
         }
 
         if (isSplash || isPublicAuthRoute) {
@@ -92,6 +114,11 @@ class AppRouter {
           path: AppRoutes.resetPassword,
           name: AppRoutes.resetPasswordName,
           builder: (context, state) => const ResetPasswordScreen(),
+        ),
+        GoRoute(
+          path: AppRoutes.organization,
+          name: AppRoutes.organizationName,
+          builder: (context, state) => const OrganizationSelectScreen(),
         ),
         GoRoute(
           path: AppRoutes.home,

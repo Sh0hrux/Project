@@ -5,13 +5,30 @@ import 'package:startup_app/core/router/app_routes.dart';
 import 'package:startup_app/core/theme/theme_cubit.dart';
 import 'package:startup_app/core/widgets/app_button.dart';
 import 'package:startup_app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:startup_app/features/organization/domain/entities/organization.dart';
+import 'package:startup_app/features/organization/presentation/bloc/organization_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
+  void _onLogout(BuildContext context) {
+    try {
+      context.read<OrganizationBloc>().add(const ClearOrganizationEvent());
+    } catch (_) {}
+    context.read<AuthBloc>().add(const LogoutRequestedEvent());
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
+    Organization? selectedOrg;
+    try {
+      selectedOrg =
+          context.watch<OrganizationBloc>().state.selectedOrganization;
+    } catch (_) {
+      selectedOrg = null;
+    }
 
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
@@ -44,9 +61,7 @@ class HomeScreen extends StatelessWidget {
               IconButton(
                 tooltip: 'Chiqish',
                 icon: const Icon(Icons.logout),
-                onPressed: () {
-                  context.read<AuthBloc>().add(const LogoutRequestedEvent());
-                },
+                onPressed: () => _onLogout(context),
               ),
             ],
           ),
@@ -71,13 +86,31 @@ class HomeScreen extends StatelessWidget {
                     user?.email ?? 'Foydalanuvchi',
                     style: theme.textTheme.bodyLarge,
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 16),
+                  if (selectedOrg != null) ...[
+                    Chip(
+                      avatar: const Icon(Icons.business, size: 18),
+                      label: Text(selectedOrg.name),
+                    ),
+                    const SizedBox(height: 8),
+                  ],
+                  TextButton.icon(
+                    key: const Key('switch_organization_button'),
+                    onPressed: () {
+                      context.push(AppRoutes.organization);
+                    },
+                    icon: const Icon(Icons.swap_horiz),
+                    label: Text(
+                      selectedOrg != null
+                          ? 'Tashkilotni almashtirish'
+                          : 'Tashkilot tanlash',
+                    ),
+                  ),
+                  const SizedBox(height: 16),
                   AppButton(
                     text: 'Chiqish',
                     isOutlined: true,
-                    onPressed: () {
-                      context.read<AuthBloc>().add(const LogoutRequestedEvent());
-                    },
+                    onPressed: () => _onLogout(context),
                   ),
                 ],
               ),
