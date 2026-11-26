@@ -26,7 +26,7 @@ lib/
 ├── core/
 │   ├── bloc/                  # AppBlocObserver
 │   ├── error/                 # Failure, Exception, ErrorHandler va Result
-│   ├── network/               # DioClient, ApiEndpoints, AuthInterceptor, LoggingInterceptor
+│   ├── network/               # DioClient, ApiEndpoints, AuthInterceptor, TokenRefresher, LoggingInterceptor
 │   ├── router/                # AppRoutes, AppRouter (redirect & refreshListenable), NotFoundScreen
 │   ├── storage/               # TokenStorage (secure) va OrganizationStorage (prefs)
 │   ├── theme/                 # AppColors, AppTheme, AppSpacing, AppRadius, AppTypography, ThemeCubit
@@ -64,3 +64,16 @@ lib/
    ```bash
    flutter run
    ```
+
+## `USE_MOCK` bayrog'i
+
+Ilova `main.dart` ichidagi `const bool useMock = bool.fromEnvironment('USE_MOCK', defaultValue: true);` bayrog'i orqali ikki rejimda ishlaydi:
+
+- **Mock rejim (`USE_MOCK=true`, standart holat):** Backend talab qilmasdan `MockAuthRepositoryImpl`, `MockProfileRemoteDataSourceImpl` va `MockOrganizationRemoteDataSourceImpl` bilan ishlaydi.
+  ```bash
+  flutter run --dart-define=USE_MOCK=true
+  ```
+- **API rejim (`USE_MOCK=false`):** `DioClient`, `AuthInterceptor`, `DioTokenRefresher` hamda haqiqiy remote data source'lar orqali server bilan ishlaydi (`401` da token yangilanmasa avtomatik logout qilinadi).
+  ```bash
+  flutter run --dart-define=USE_MOCK=false
+  ```
