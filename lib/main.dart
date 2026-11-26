@@ -22,7 +22,10 @@ void main() {
   final tokenStorage = SecureTokenStorage();
   final organizationStorage = SharedPreferencesOrganizationStorage();
 
-  final authRepository = MockAuthRepositoryImpl(tokenStorage: tokenStorage);
+  final authRepository = MockAuthRepositoryImpl(
+    tokenStorage: tokenStorage,
+    organizationStorage: organizationStorage,
+  );
   final profileRepository = ProfileRepositoryImpl(
     remoteDataSource: MockProfileRemoteDataSourceImpl(),
   );

@@ -1,13 +1,16 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:startup_app/core/storage/organization_storage.dart';
 import 'package:startup_app/core/storage/token_storage.dart';
 
 class AuthInterceptor extends Interceptor {
   final TokenStorage tokenStorage;
+  final OrganizationStorage? organizationStorage;
   final VoidCallback? onUnauthorized;
 
   AuthInterceptor({
     required this.tokenStorage,
+    this.organizationStorage,
     this.onUnauthorized,
   });
 
@@ -19,6 +22,10 @@ class AuthInterceptor extends Interceptor {
     final token = await tokenStorage.getAccessToken();
     if (token != null && token.isNotEmpty) {
       options.headers['Authorization'] = 'Bearer $token';
+    }
+    final orgId = await organizationStorage?.getOrganizationId();
+    if (orgId != null && orgId.isNotEmpty) {
+      options.headers['X-Organization-Id'] = orgId;
     }
     super.onRequest(options, handler);
   }
@@ -47,6 +54,7 @@ class AuthInterceptor extends Interceptor {
       }
 
       await tokenStorage.clear();
+      await organizationStorage?.clear();
       onUnauthorized?.call();
     }
     super.onError(err, handler);

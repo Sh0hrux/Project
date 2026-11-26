@@ -1,13 +1,18 @@
 import 'package:startup_app/core/error/failures.dart';
+import 'package:startup_app/core/storage/organization_storage.dart';
 import 'package:startup_app/core/storage/token_storage.dart';
 import 'package:startup_app/features/auth/domain/entities/user_entity.dart';
 import 'package:startup_app/features/auth/domain/repositories/auth_repository.dart';
 
 class MockAuthRepositoryImpl implements AuthRepository {
   final TokenStorage? tokenStorage;
+  final OrganizationStorage? organizationStorage;
   UserEntity? _currentUser;
 
-  MockAuthRepositoryImpl({this.tokenStorage});
+  MockAuthRepositoryImpl({
+    this.tokenStorage,
+    this.organizationStorage,
+  });
 
   @override
   Future<UserEntity> login({
@@ -39,6 +44,7 @@ class MockAuthRepositoryImpl implements AuthRepository {
   Future<void> logout() async {
     _currentUser = null;
     await tokenStorage?.clear();
+    await organizationStorage?.clear();
   }
 
   @override
