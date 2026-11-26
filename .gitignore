@@ -43,6 +43,8 @@ migrate_working_dir/
 *.jks
 *.p12
 *.pfx
+key.properties
+google-services.json
 secrets.json
 
 # Symbolication related
