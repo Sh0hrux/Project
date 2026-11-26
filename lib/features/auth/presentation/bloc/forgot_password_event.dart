@@ -32,6 +32,10 @@ class ResetPasswordSubmittedEvent extends ForgotPasswordEvent {
 
   @override
   List<Object?> get props => [newPassword];
+
+  @override
+  String toString() =>
+      'ResetPasswordSubmittedEvent(newPassword: ***MASKED***)';
 }
 
 class ResetForgotPasswordFlowEvent extends ForgotPasswordEvent {

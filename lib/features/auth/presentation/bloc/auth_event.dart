@@ -19,6 +19,9 @@ class LoginRequestedEvent extends AuthEvent {
 
   @override
   List<Object?> get props => [email, password];
+
+  @override
+  String toString() => 'LoginRequestedEvent(email: $email, password: ***MASKED***)';
 }
 
 class LogoutRequestedEvent extends AuthEvent {
